@@ -63,9 +63,13 @@
   const carouselDots = document.getElementById('carouselDots');
   const sectionCards = document.querySelectorAll('.section-card');
 
-  // 音乐播放列表数据
+  // SPA 视图切换
+  const views = document.querySelectorAll('.view-panel');
+  const navButtons = document.querySelectorAll('[data-nav]');
+
+  // 音乐播放列表
   const trackList = [
-    { name: '清晨微风', genre: '轻音乐', src: '' },    // 请替换为实际音频文件路径
+    { name: '清晨微风', genre: '轻音乐', src: '' },
     { name: 'Lofi Study Beat', genre: 'Lofi Hip-hop', src: '' },
     { name: '钢琴晨曲', genre: '古典钢琴', src: '' },
     { name: 'Forest Ambient', genre: '环境音', src: '' }
@@ -91,6 +95,51 @@
     moreBtn.classList.remove('active');
   }
 
+  // ========== SPA 视图切换 ==========
+  function showPanel(panelName) {
+    views.forEach(v => v.classList.remove('active'));
+    const target = document.getElementById(`view-${panelName}`);
+    if (target) target.classList.add('active');
+    // 更新 hash
+    window.location.hash = panelName === 'home' ? '' : panelName;
+    // 滚动到顶部
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    // 关闭移动侧边栏
+    closeSidebar();
+  }
+
+  // 绑定所有带有 data-nav 的元素
+  navButtons.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const panel = btn.dataset.nav;
+      if (panel) showPanel(panel);
+      // 如果按钮有 data-close-sidebar 属性，关闭侧边栏
+      if (btn.hasAttribute('data-close-sidebar')) {
+        closeSidebar();
+      }
+    });
+  });
+
+  // 处理 hash 路由
+  function handleHash() {
+    const hash = window.location.hash.replace('#', '');
+    if (hash && document.getElementById(`view-${hash}`)) {
+      showPanelSilent(hash);
+    } else {
+      showPanelSilent('home');
+    }
+  }
+
+  function showPanelSilent(panelName) {
+    views.forEach(v => v.classList.remove('active'));
+    const target = document.getElementById(`view-${panelName}`);
+    if (target) target.classList.add('active');
+  }
+
+  window.addEventListener('hashchange', handleHash);
+  handleHash();
+
   // ========== 弹窗逻辑 ==========
   function showModal() {
     welcomeModal.classList.remove('hidden');
@@ -102,7 +151,6 @@
     }
   }
 
-  // 初始化时根据 localStorage 决定是否显示弹窗
   if (localStorage.getItem('hideWelcomeModal') !== 'true') {
     showModal();
   } else {
@@ -117,11 +165,10 @@
     closeSidebar();
   });
 
-  // 弹窗中的音乐开关
+  // 弹窗中音乐开关
   modalMusicToggle.addEventListener('change', function() {
     if (this.checked) {
       modalMusicSelect.classList.add('visible');
-      // 同步选中的电台到当前曲目
       const checkedRadio = document.querySelector('input[name="musicChoice"]:checked');
       if (checkedRadio) {
         currentTrack = parseInt(checkedRadio.value);
@@ -151,7 +198,6 @@
   function loadAndPlayTrack(index) {
     const track = trackList[index];
     if (!track.src) {
-      // 没有真实音频源，仅更新UI，不播放实际声音
       console.log('音频文件未配置，请替换 src 路径');
       updateMusicPlayerUI();
       return;
@@ -221,7 +267,6 @@
       if (audioPlayer.src || trackList[currentTrack].src) {
         resumeMusic();
       } else {
-        // 首次播放
         loadAndPlayTrack(currentTrack);
       }
     }
@@ -271,7 +316,6 @@
     setTheme(next);
   }
 
-  // 初始化主题
   const savedTheme = localStorage.getItem('theme') || 'light';
   setTheme(savedTheme);
 
@@ -306,40 +350,36 @@
     else openSearch();
   });
 
-  // ESC 关闭搜索
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && searchOpen) {
       closeSearch();
     }
   });
 
-  // 简易搜索逻辑（基于标题文本）
   searchInput.addEventListener('input', function() {
     const query = this.value.trim().toLowerCase();
     if (!query) {
       searchResults.innerHTML = '';
       return;
     }
-    // 收集所有可搜索的内容块标题
-    const blocks = document.querySelectorAll('.content-block .block-title, .section-card .card-title');
+    const blocks = document.querySelectorAll('.content-block h3, .section-card .card-title');
     const results = [];
     blocks.forEach(block => {
       const text = block.textContent || '';
       if (text.toLowerCase().includes(query)) {
-        // 找到对应的区域或卡片锚点
         let anchor = '';
         const contentBlock = block.closest('.content-block');
         if (contentBlock && contentBlock.id) {
           anchor = '#' + contentBlock.id;
         } else {
           const card = block.closest('.section-card');
-          if (card && card.dataset.target) {
-            anchor = '#' + card.dataset.target;
+          if (card && card.dataset.nav) {
+            anchor = '#/view-' + card.dataset.nav;
           }
         }
         results.push({
           title: text,
-          section: contentBlock ? contentBlock.closest('.content-section')?.querySelector('.content-section-title')?.textContent || '' : '',
+          section: contentBlock ? contentBlock.closest('.view-panel')?.querySelector('h2')?.textContent || '' : '',
           anchor: anchor
         });
       }
@@ -354,19 +394,23 @@
     }
     searchResults.innerHTML = results.map(r => `
       <div class="search-result-item" data-anchor="${r.anchor}">
-        <span class="search-result-icon">🔍</span>
+        <span class="search-result-icon">◇</span>
         <div class="search-result-text">
           <span class="search-result-section">${r.section || '指南板块'}</span>
           <span class="search-result-title">${r.title}</span>
         </div>
       </div>
     `).join('');
-    // 点击结果跳转
     document.querySelectorAll('.search-result-item').forEach(item => {
       item.addEventListener('click', () => {
         const anchor = item.dataset.anchor;
         if (anchor) {
-          window.location.hash = anchor;
+          if (anchor.startsWith('#/view-')) {
+            const panel = anchor.replace('#/view-', '');
+            showPanel(panel);
+          } else {
+            window.location.hash = anchor;
+          }
           closeSearch();
         }
       });
@@ -377,12 +421,12 @@
   function openSidebar() {
     sidebar.classList.add('open');
     sidebarOverlay.classList.add('open');
-    document.body.style.overflow = 'hidden';
+    body.style.overflow = 'hidden';
   }
   function closeSidebar() {
     sidebar.classList.remove('open');
     sidebarOverlay.classList.remove('open');
-    document.body.style.overflow = '';
+    body.style.overflow = '';
   }
   hamburgerBtn.addEventListener('click', () => {
     if (sidebar.classList.contains('open')) {
@@ -393,7 +437,6 @@
   });
   sidebarCloseBtn.addEventListener('click', closeSidebar);
   sidebarOverlay.addEventListener('click', closeSidebar);
-  // 点击侧边栏内带有 data-close-sidebar 的链接自动关闭
   sidebar.addEventListener('click', (e) => {
     if (e.target.hasAttribute('data-close-sidebar')) {
       closeSidebar();
@@ -482,7 +525,7 @@
 
   function updateCardsPerView() {
     const trackWidth = carouselTrack.clientWidth;
-    const cardWidth = 280 + 20; // card width + gap
+    const cardWidth = 280 + 20;
     cardsPerView = Math.max(1, Math.floor(trackWidth / cardWidth));
     createDots();
     updateDots();
@@ -504,7 +547,6 @@
     }
   });
 
-  // 监听滚动更新当前页
   carouselTrack.addEventListener('scroll', function() {
     const scrollLeft = carouselTrack.scrollLeft;
     const cardWidth = 280 + 20;
@@ -513,20 +555,17 @@
     updateDots();
   }, { passive: true });
 
-  // 窗口大小变化重新计算
   window.addEventListener('resize', updateCardsPerView);
 
-  // 初始化轮播
   if (sectionCards.length > 0) {
     updateCardsPerView();
   }
 
-  // 卡片点击跳转到对应内容区
   sectionCards.forEach(card => {
     card.addEventListener('click', () => {
-      const targetId = card.dataset.target;
-      if (targetId) {
-        document.getElementById(targetId)?.scrollIntoView({ behavior: 'smooth' });
+      const targetNav = card.dataset.nav;
+      if (targetNav) {
+        showPanel(targetNav);
       }
     });
   });
@@ -550,7 +589,7 @@
     yearSpan.textContent = new Date().getFullYear();
   }
 
-  // ========== 初始检查返回顶部按钮状态 ==========
+  // ========== 初始检查返回顶部按钮 ==========
   checkBackToTop();
 
 })();
