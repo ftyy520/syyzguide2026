@@ -22,11 +22,11 @@
             <div class="modal-body">
                 <div class="modal-features">
                     <div class="modal-feature-item">
-                        <span class="modal-feature-icon">◇</span>
+                        <span class="modal-feature-icon">◈</span>
                         <div><strong>全方位指南</strong><p>学术、生活、服务、活动，一站式了解校园每个角落</p></div>
                     </div>
                     <div class="modal-feature-item">
-                        <span class="modal-feature-icon">◆</span>
+                        <span class="modal-feature-icon">◈</span>
                         <div><strong>快速搜索</strong><p>想查什么直接搜索，秒速找到所需信息</p></div>
                     </div>
                     <div class="modal-feature-item">
@@ -49,31 +49,16 @@
                     <div class="modal-music-select" id="modalMusicSelect">
                         <p class="music-select-label">选择一首歌曲：</p>
                         <div class="music-options">
-                            <label class="music-option">
-                                <input type="radio" name="musicChoice" value="0" checked />
-                                <span class="music-option-label"><span class="music-note">♫</span><span class="music-info"><span class="music-title-text">清晨微风</span><span class="music-genre">轻音乐</span></span></span>
-                            </label>
-                            <label class="music-option">
-                                <input type="radio" name="musicChoice" value="1" />
-                                <span class="music-option-label"><span class="music-note">♫</span><span class="music-info"><span class="music-title-text">Lofi Study Beat</span><span class="music-genre">Lofi Hip-hop</span></span></span>
-                            </label>
-                            <label class="music-option">
-                                <input type="radio" name="musicChoice" value="2" />
-                                <span class="music-option-label"><span class="music-note">♫</span><span class="music-info"><span class="music-title-text">钢琴晨曲</span><span class="music-genre">古典钢琴</span></span></span>
-                            </label>
-                            <label class="music-option">
-                                <input type="radio" name="musicChoice" value="3" />
-                                <span class="music-option-label"><span class="music-note">♫</span><span class="music-info"><span class="music-title-text">Forest Ambient</span><span class="music-genre">环境音</span></span></span>
-                            </label>
+                            <label class="music-option"><input type="radio" name="musicChoice" value="0" checked /><span class="music-option-label"><span class="music-note">♫</span><span class="music-info"><span class="music-title-text">清晨微风</span><span class="music-genre">轻音乐</span></span></span></label>
+                            <label class="music-option"><input type="radio" name="musicChoice" value="1" /><span class="music-option-label"><span class="music-note">♫</span><span class="music-info"><span class="music-title-text">Lofi Study Beat</span><span class="music-genre">Lofi Hip-hop</span></span></span></label>
+                            <label class="music-option"><input type="radio" name="musicChoice" value="2" /><span class="music-option-label"><span class="music-note">♫</span><span class="music-info"><span class="music-title-text">钢琴晨曲</span><span class="music-genre">古典钢琴</span></span></span></label>
+                            <label class="music-option"><input type="radio" name="musicChoice" value="3" /><span class="music-option-label"><span class="music-note">♫</span><span class="music-info"><span class="music-title-text">Forest Ambient</span><span class="music-genre">环境音</span></span></span></label>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <label class="modal-no-show">
-                    <input type="checkbox" id="dontShowAgain" />
-                    <span>下次不再显示</span>
-                </label>
+                <label class="modal-no-show"><input type="checkbox" id="dontShowAgain" /><span>下次不再显示</span></label>
                 <button id="modalCloseBtn" class="modal-close-btn">开始探索</button>
             </div>
         </div>
@@ -82,103 +67,67 @@
     <!-- 主导航 -->
     <header class="site-header" id="siteHeader">
         <nav class="nav-container" role="navigation" aria-label="主导航">
-            <a href="#" class="nav-logo" aria-label="返回首页" data-nav="home">
-                <span class="nav-logo-icon">◆</span>
-                <span class="nav-logo-text">新生指南</span>
-            </a>
+            <a href="#" class="nav-logo" data-nav="home"><span class="nav-logo-icon">◆</span><span class="nav-logo-text">新生指南</span></a>
             <ul class="nav-links" role="list">
                 <li><button class="nav-link" data-nav="home">首页</button></li>
                 <li><button class="nav-link" data-nav="guide">指南板块</button></li>
                 <li><button class="nav-link" data-nav="about">关于</button></li>
             </ul>
             <div class="nav-controls">
-                <button class="nav-icon-btn" id="searchToggleBtn" aria-label="搜索" aria-expanded="false">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-                </button>
-                <button class="nav-icon-btn" id="musicToggleBtn" aria-label="音乐播放器">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
-                </button>
+                <button class="nav-icon-btn" id="searchToggleBtn" aria-label="搜索"><svg width="18" height="18" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8" fill="none" stroke="currentColor" stroke-width="2"/><path d="m21 21-4.35-4.35" stroke="currentColor" stroke-width="2"/></svg></button>
+                <button class="nav-icon-btn" id="musicToggleBtn" aria-label="音乐播放器"><svg width="18" height="18" viewBox="0 0 24 24"><path d="M9 18V5l12-2v13" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="6" cy="18" r="3" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="18" cy="16" r="3" fill="none" stroke="currentColor" stroke-width="2"/></svg></button>
                 <button class="nav-icon-btn" id="themeToggleBtn" aria-label="切换深浅色">
-                    <svg id="themeIconSun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
-                    <svg id="themeIconMoon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                    <svg id="themeIconSun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+                    <svg id="themeIconMoon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
                 </button>
                 <div class="more-wrapper">
-                    <button class="nav-icon-btn" id="moreBtn" aria-label="更多选项" aria-expanded="false" aria-haspopup="true">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="1" fill="currentColor"/><circle cx="12" cy="12" r="1" fill="currentColor"/><circle cx="12" cy="19" r="1" fill="currentColor"/></svg>
-                    </button>
+                    <button class="nav-icon-btn" id="moreBtn" aria-label="更多选项"><svg width="18" height="18" viewBox="0 0 24 24"><circle cx="12" cy="5" r="1" fill="currentColor"/><circle cx="12" cy="12" r="1" fill="currentColor"/><circle cx="12" cy="19" r="1" fill="currentColor"/></svg></button>
                     <div class="more-dropdown" id="moreDropdown" aria-hidden="true" role="menu">
-                        <button class="more-item" id="showWelcomeBtn" role="menuitem">◇ 查看欢迎介绍</button>
+                        <button class="more-item" id="showWelcomeBtn" role="menuitem">◈ 查看欢迎介绍</button>
                         <button class="more-item" id="showMusicBtn" role="menuitem">♫ 音乐播放器</button>
                         <div class="more-divider"></div>
                         <button class="more-item" id="themeToggleBtn2" role="menuitem">◐ 切换深浅色</button>
                     </div>
                 </div>
-                <button class="nav-icon-btn nav-hamburger" id="hamburgerBtn" aria-label="打开菜单" aria-expanded="false">
-                    <span class="hamburger-line"></span>
-                    <span class="hamburger-line"></span>
-                    <span class="hamburger-line"></span>
-                </button>
+                <button class="nav-icon-btn nav-hamburger" id="hamburgerBtn" aria-label="打开菜单"><span class="hamburger-line"></span><span class="hamburger-line"></span><span class="hamburger-line"></span></button>
             </div>
         </nav>
         <div class="search-bar-wrapper" id="searchBarWrapper" aria-hidden="true">
-            <div class="search-bar-inner">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-                <input type="search" id="searchInput" placeholder="搜索指南内容…" aria-label="搜索内容" autocomplete="off" />
-                <span class="search-esc">ESC</span>
-            </div>
-            <div class="search-results" id="searchResults" role="listbox" aria-label="搜索结果"></div>
+            <div class="search-bar-inner"><svg width="18" height="18" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8" fill="none" stroke="currentColor" stroke-width="2"/><path d="m21 21-4.35-4.35" stroke="currentColor" stroke-width="2"/></svg><input type="search" id="searchInput" placeholder="搜索指南内容…" autocomplete="off" /><span class="search-esc">ESC</span></div>
+            <div class="search-results" id="searchResults"></div>
         </div>
     </header>
 
     <!-- 移动侧边栏 -->
     <div class="sidebar-overlay" id="sidebarOverlay" aria-hidden="true"></div>
-    <aside class="sidebar" id="sidebar" role="navigation" aria-label="侧边菜单" aria-hidden="true">
-        <div class="sidebar-header">
-            <span class="sidebar-logo">◆ 新生指南</span>
-            <button class="sidebar-close-btn" id="sidebarCloseBtn" aria-label="关闭菜单">&times;</button>
-        </div>
+    <aside class="sidebar" id="sidebar" aria-hidden="true">
+        <div class="sidebar-header"><span class="sidebar-logo">◆ 新生指南</span><button class="sidebar-close-btn" id="sidebarCloseBtn">&times;</button></div>
         <nav class="sidebar-nav">
-            <button class="sidebar-nav-link sidebar-nav-btn" data-nav="home" data-close-sidebar>◇ 首页</button>
-            <button class="sidebar-nav-link sidebar-nav-btn" data-nav="guide" data-close-sidebar>◇ 指南板块</button>
+            <button class="sidebar-nav-link sidebar-nav-btn" data-nav="home" data-close-sidebar>◈ 首页</button>
+            <button class="sidebar-nav-link sidebar-nav-btn" data-nav="guide" data-close-sidebar>◈ 指南板块</button>
             <div class="sidebar-section-label">内容板块</div>
-            <button class="sidebar-nav-link sidebar-nav-btn" data-nav="academic" data-close-sidebar>◇ 学术篇</button>
-            <button class="sidebar-nav-link sidebar-nav-btn" data-nav="life" data-close-sidebar>◇ 生活篇</button>
-            <button class="sidebar-nav-link sidebar-nav-btn" data-nav="service" data-close-sidebar>◇ 服务篇</button>
-            <button class="sidebar-nav-link sidebar-nav-btn" data-nav="activity" data-close-sidebar>◇ 活动篇</button>
-            <button class="sidebar-nav-link sidebar-nav-btn" data-nav="transport" data-close-sidebar>◇ 交通篇</button>
-            <button class="sidebar-nav-link sidebar-nav-btn" data-nav="emergency" data-close-sidebar>◇ 紧急联系</button>
-            <button class="sidebar-nav-link sidebar-nav-btn" data-nav="faq" data-close-sidebar>◇ 常见问题</button>
+            <button class="sidebar-nav-link sidebar-nav-btn" data-nav="academic" data-close-sidebar>◈ 学术篇</button>
+            <button class="sidebar-nav-link sidebar-nav-btn" data-nav="life" data-close-sidebar>◈ 生活篇</button>
+            <button class="sidebar-nav-link sidebar-nav-btn" data-nav="service" data-close-sidebar>◈ 服务篇</button>
+            <button class="sidebar-nav-link sidebar-nav-btn" data-nav="activity" data-close-sidebar>◈ 活动篇</button>
+            <button class="sidebar-nav-link sidebar-nav-btn" data-nav="transport" data-close-sidebar>◈ 交通篇</button>
+            <button class="sidebar-nav-link sidebar-nav-btn" data-nav="emergency" data-close-sidebar>◈ 紧急联系</button>
+            <button class="sidebar-nav-link sidebar-nav-btn" data-nav="faq" data-close-sidebar>◈ 常见问题</button>
             <div class="sidebar-section-label">功能</div>
-            <button class="sidebar-nav-link sidebar-nav-btn" id="sidebarWelcomeBtn">◇ 欢迎介绍</button>
+            <button class="sidebar-nav-link sidebar-nav-btn" id="sidebarWelcomeBtn">◈ 欢迎介绍</button>
             <button class="sidebar-nav-link sidebar-nav-btn" id="sidebarThemeBtn">◐ 切换深浅色</button>
             <button class="sidebar-nav-link sidebar-nav-btn" id="sidebarMusicBtn">♫ 音乐播放器</button>
         </nav>
     </aside>
 
     <!-- 浮动音乐播放器 -->
-    <div class="music-player" id="musicPlayer" role="complementary" aria-label="音乐播放器" aria-hidden="true">
-        <div class="music-player-header">
-            <span class="music-player-title">♫ 背景音乐</span>
-            <button class="music-player-close" id="musicPlayerClose" aria-label="关闭播放器">&times;</button>
-        </div>
-        <div class="music-player-track">
-            <div class="music-player-disc" id="musicDisc"><span>♫</span></div>
-            <div class="music-player-info">
-                <span class="music-player-name" id="currentTrackName">清晨微风</span>
-                <span class="music-player-genre" id="currentTrackGenre">轻音乐</span>
-            </div>
-        </div>
+    <div class="music-player" id="musicPlayer" aria-hidden="true">
+        <div class="music-player-header"><span class="music-player-title">♫ 背景音乐</span><button class="music-player-close" id="musicPlayerClose">&times;</button></div>
+        <div class="music-player-track"><div class="music-player-disc" id="musicDisc"><span>♫</span></div><div class="music-player-info"><span class="music-player-name" id="currentTrackName">清晨微风</span><span class="music-player-genre" id="currentTrackGenre">轻音乐</span></div></div>
         <div class="music-player-controls">
-            <button class="music-ctrl-btn" id="musicPrevBtn" aria-label="上一首">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zm3.5 6 8.5 6V6z"/></svg>
-            </button>
-            <button class="music-ctrl-btn music-play-btn" id="musicPlayBtn" aria-label="播放/暂停">
-                <svg id="iconPlay" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-                <svg id="iconPause" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style="display:none"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
-            </button>
-            <button class="music-ctrl-btn" id="musicNextBtn" aria-label="下一首">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M6 18l8.5-6L6 6v12zm2.5-6 8.5 6V6z"/></svg>
-            </button>
+            <button class="music-ctrl-btn" id="musicPrevBtn"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zm3.5 6 8.5 6V6z"/></svg></button>
+            <button class="music-ctrl-btn music-play-btn" id="musicPlayBtn"><svg id="iconPlay" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg><svg id="iconPause" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style="display:none"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg></button>
+            <button class="music-ctrl-btn" id="musicNextBtn"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M6 18l8.5-6L6 6v12zm2.5-6 8.5 6V6z"/></svg></button>
         </div>
         <div class="music-playlist" id="musicPlaylist">
             <div class="playlist-item active" data-track="0"><span class="playlist-note">♫</span><span class="playlist-name">清晨微风</span><span class="playlist-genre">轻音乐</span></div>
@@ -212,68 +161,82 @@
             </div>
         </section>
 
-        <!-- 指南板块总览（卡片轮播） -->
+        <!-- 指南板块轮播 -->
         <section id="view-guide" class="view-panel">
             <div class="container sections-area">
-                <div class="section-header">
-                    <h2 class="section-title">指南板块</h2>
-                    <p class="section-subtitle">选择你想了解的内容，开始探索</p>
-                </div>
+                <div class="section-header"><h2 class="section-title">指南板块</h2><p class="section-subtitle">选择你想了解的内容，开始探索</p></div>
                 <div class="carousel-wrapper" id="carouselWrapper">
-                    <button class="carousel-arrow carousel-arrow-left" id="carouselLeft" aria-label="向左">
-                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>
-                    </button>
-                    <div class="carousel-track-container" role="region" aria-label="板块卡片">
+                    <button class="carousel-arrow carousel-arrow-left" id="carouselLeft"><svg width="32" height="32" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6" fill="none" stroke="currentColor" stroke-width="2.5"/></svg></button>
+                    <div class="carousel-track-container">
                         <div class="carousel-track" id="carouselTrack">
                             <article class="section-card" data-nav="academic" tabindex="0">
-                                <div class="card-icon-wrap"><span class="card-icon">◇</span></div>
-                                <h3 class="card-title">学术篇</h3>
-                                <p class="card-desc">选课流程、成绩查询、图书馆、学习资源</p>
-                                <div class="card-arrow">→</div>
+                                <div class="card-img"><img src="https://picsum.photos/400/200?random=1" alt="学术" loading="lazy" /></div>
+                                <div class="card-body">
+                                    <div class="card-icon-wrap"><span class="card-icon">◎</span></div>
+                                    <h3 class="card-title">学术篇</h3>
+                                    <p class="card-desc">选课流程、成绩查询、图书馆、学习资源</p>
+                                    <div class="card-arrow">→</div>
+                                </div>
                             </article>
                             <article class="section-card" data-nav="life" tabindex="0">
-                                <div class="card-icon-wrap"><span class="card-icon">◇</span></div>
-                                <h3 class="card-title">生活篇</h3>
-                                <p class="card-desc">宿舍规定、食堂攻略、超市、快递收发</p>
-                                <div class="card-arrow">→</div>
+                                <div class="card-img"><img src="https://picsum.photos/400/200?random=2" alt="生活" loading="lazy" /></div>
+                                <div class="card-body">
+                                    <div class="card-icon-wrap"><span class="card-icon">◈</span></div>
+                                    <h3 class="card-title">生活篇</h3>
+                                    <p class="card-desc">宿舍规定、食堂攻略、超市、快递收发</p>
+                                    <div class="card-arrow">→</div>
+                                </div>
                             </article>
                             <article class="section-card" data-nav="service" tabindex="0">
-                                <div class="card-icon-wrap"><span class="card-icon">◇</span></div>
-                                <h3 class="card-title">服务篇</h3>
-                                <p class="card-desc">医务室、心理咨询、行政办事、校园卡</p>
-                                <div class="card-arrow">→</div>
+                                <div class="card-img"><img src="https://picsum.photos/400/200?random=3" alt="服务" loading="lazy" /></div>
+                                <div class="card-body">
+                                    <div class="card-icon-wrap"><span class="card-icon">◉</span></div>
+                                    <h3 class="card-title">服务篇</h3>
+                                    <p class="card-desc">医务室、心理咨询、行政办事、校园卡</p>
+                                    <div class="card-arrow">→</div>
+                                </div>
                             </article>
                             <article class="section-card" data-nav="activity" tabindex="0">
-                                <div class="card-icon-wrap"><span class="card-icon">◇</span></div>
-                                <h3 class="card-title">活动篇</h3>
-                                <p class="card-desc">社团介绍、体育设施、校园活动、文化节</p>
-                                <div class="card-arrow">→</div>
+                                <div class="card-img"><img src="https://picsum.photos/400/200?random=4" alt="活动" loading="lazy" /></div>
+                                <div class="card-body">
+                                    <div class="card-icon-wrap"><span class="card-icon">◌</span></div>
+                                    <h3 class="card-title">活动篇</h3>
+                                    <p class="card-desc">社团介绍、体育设施、校园活动、文化节</p>
+                                    <div class="card-arrow">→</div>
+                                </div>
                             </article>
                             <article class="section-card" data-nav="transport" tabindex="0">
-                                <div class="card-icon-wrap"><span class="card-icon">◇</span></div>
-                                <h3 class="card-title">交通篇</h3>
-                                <p class="card-desc">校内班车、周边公交、地铁出行、打车</p>
-                                <div class="card-arrow">→</div>
+                                <div class="card-img"><img src="https://picsum.photos/400/200?random=5" alt="交通" loading="lazy" /></div>
+                                <div class="card-body">
+                                    <div class="card-icon-wrap"><span class="card-icon">◍</span></div>
+                                    <h3 class="card-title">交通篇</h3>
+                                    <p class="card-desc">校内班车、周边公交、地铁出行、打车</p>
+                                    <div class="card-arrow">→</div>
+                                </div>
                             </article>
                             <article class="section-card" data-nav="emergency" tabindex="0">
-                                <div class="card-icon-wrap"><span class="card-icon">◇</span></div>
-                                <h3 class="card-title">紧急联系</h3>
-                                <p class="card-desc">安保、急救、报修，重要电话一览</p>
-                                <div class="card-arrow">→</div>
+                                <div class="card-img"><img src="https://picsum.photos/400/200?random=6" alt="紧急" loading="lazy" /></div>
+                                <div class="card-body">
+                                    <div class="card-icon-wrap"><span class="card-icon">◈</span></div>
+                                    <h3 class="card-title">紧急联系</h3>
+                                    <p class="card-desc">安保、急救、报修，重要电话一览</p>
+                                    <div class="card-arrow">→</div>
+                                </div>
                             </article>
                             <article class="section-card" data-nav="faq" tabindex="0">
-                                <div class="card-icon-wrap"><span class="card-icon">◇</span></div>
-                                <h3 class="card-title">常见问题</h3>
-                                <p class="card-desc">新生最常遇到的问题汇总，入学必看</p>
-                                <div class="card-arrow">→</div>
+                                <div class="card-img"><img src="https://picsum.photos/400/200?random=7" alt="FAQ" loading="lazy" /></div>
+                                <div class="card-body">
+                                    <div class="card-icon-wrap"><span class="card-icon">◈</span></div>
+                                    <h3 class="card-title">常见问题</h3>
+                                    <p class="card-desc">新生最常遇到的问题汇总，入学必看</p>
+                                    <div class="card-arrow">→</div>
+                                </div>
                             </article>
                         </div>
                     </div>
-                    <button class="carousel-arrow carousel-arrow-right" id="carouselRight" aria-label="向右">
-                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
-                    </button>
+                    <button class="carousel-arrow carousel-arrow-right" id="carouselRight"><svg width="32" height="32" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6" fill="none" stroke="currentColor" stroke-width="2.5"/></svg></button>
                 </div>
-                <div class="carousel-dots" id="carouselDots" role="tablist" aria-label="选择卡片"></div>
+                <div class="carousel-dots" id="carouselDots"></div>
             </div>
         </section>
 
@@ -281,43 +244,17 @@
         <section id="view-academic" class="view-panel content-panel">
             <div class="container">
                 <div class="content-header"><h2>学术篇</h2><p>选课流程、成绩查询、图书馆使用、学习资源获取</p></div>
-                <div class="quick-nav"><span class="quick-nav-label">快速跳转：</span><a href="#ac-1" class="quick-nav-link">选课指南</a><a href="#ac-2" class="quick-nav-link">成绩查询</a><a href="#ac-3" class="quick-nav-link">图书馆</a><a href="#ac-4" class="quick-nav-link">学习资源</a></div>
+                <div class="quick-nav"><span class="quick-nav-label">快速跳转：</span>
+                    <button class="quick-nav-link" data-scroll="ac-1">选课指南</button>
+                    <button class="quick-nav-link" data-scroll="ac-2">成绩查询</button>
+                    <button class="quick-nav-link" data-scroll="ac-3">图书馆</button>
+                    <button class="quick-nav-link" data-scroll="ac-4">学习资源</button>
+                </div>
                 <div class="content-blocks">
-                    <div class="content-block" id="ac-1">
-                        <h3>◇ 选课指南</h3>
-                        <p>【在此填写选课相关内容，例如：选课时间、选课系统入口、选课注意事项、如何抢课等】</p>
-                        <div class="info-cards">
-                            <div class="info-card"><span class="info-card-label">选课时间</span><span class="info-card-value">【待填写】</span></div>
-                            <div class="info-card"><span class="info-card-label">选课系统</span><span class="info-card-value">【待填写网址】</span></div>
-                            <div class="info-card"><span class="info-card-label">教务联系</span><span class="info-card-value">【待填写】</span></div>
-                        </div>
-                    </div>
-                    <div class="content-block" id="ac-2">
-                        <h3>◇ 成绩查询</h3>
-                        <p>【在此填写成绩查询方式、绩点计算规则、成绩复核流程等】</p>
-                        <div class="info-cards">
-                            <div class="info-card"><span class="info-card-label">查询系统</span><span class="info-card-value">【待填写网址】</span></div>
-                            <div class="info-card"><span class="info-card-label">公布时间</span><span class="info-card-value">【待填写】</span></div>
-                        </div>
-                    </div>
-                    <div class="content-block" id="ac-3">
-                        <h3>◇ 图书馆</h3>
-                        <p>【图书馆开放时间、借阅规则、自习室预约方式、电子资源入口等】</p>
-                        <div class="info-cards">
-                            <div class="info-card"><span class="info-card-label">开放时间</span><span class="info-card-value">【待填写】</span></div>
-                            <div class="info-card"><span class="info-card-label">借阅规则</span><span class="info-card-value">【待填写】</span></div>
-                            <div class="info-card"><span class="info-card-label">电子资源</span><span class="info-card-value">【待填写链接】</span></div>
-                        </div>
-                    </div>
-                    <div class="content-block" id="ac-4">
-                        <h3>◇ 学习资源</h3>
-                        <p>【常用学习平台、学术数据库、论文模板、辅导中心等信息】</p>
-                        <div class="info-cards">
-                            <div class="info-card"><span class="info-card-label">在线课程平台</span><span class="info-card-value">【待填写】</span></div>
-                            <div class="info-card"><span class="info-card-label">学术数据库</span><span class="info-card-value">【待填写】</span></div>
-                            <div class="info-card"><span class="info-card-label">论文指南</span><span class="info-card-value">【待填写】</span></div>
-                        </div>
-                    </div>
+                    <div class="content-block" id="ac-1"><h3>◎ 选课指南</h3><p>【在此填写选课相关内容，例如：选课时间、选课系统入口、选课注意事项、如何抢课等。】</p><div class="info-cards"><div class="info-card"><span class="info-card-label">选课时间</span><span class="info-card-value">【待填写】</span></div><div class="info-card"><span class="info-card-label">选课系统</span><span class="info-card-value">【待填写网址】</span></div><div class="info-card"><span class="info-card-label">教务联系</span><span class="info-card-value">【待填写】</span></div></div></div>
+                    <div class="content-block" id="ac-2"><h3>◎ 成绩查询</h3><p>【成绩查询方式、绩点计算规则、成绩复核流程等。】</p><div class="info-cards"><div class="info-card"><span class="info-card-label">查询系统</span><span class="info-card-value">【待填写网址】</span></div><div class="info-card"><span class="info-card-label">公布时间</span><span class="info-card-value">【待填写】</span></div></div></div>
+                    <div class="content-block" id="ac-3"><h3>◎ 图书馆</h3><p>【图书馆开放时间、借阅规则、自习室预约方式、电子资源入口等。】</p><div class="info-cards"><div class="info-card"><span class="info-card-label">开放时间</span><span class="info-card-value">【待填写】</span></div><div class="info-card"><span class="info-card-label">借阅规则</span><span class="info-card-value">【待填写】</span></div><div class="info-card"><span class="info-card-label">电子资源</span><span class="info-card-value">【待填写链接】</span></div></div></div>
+                    <div class="content-block" id="ac-4"><h3>◎ 学习资源</h3><p>【常用学习平台、学术数据库、论文模板、辅导中心等信息。】</p><div class="info-cards"><div class="info-card"><span class="info-card-label">在线课程平台</span><span class="info-card-value">【待填写】</span></div><div class="info-card"><span class="info-card-label">学术数据库</span><span class="info-card-value">【待填写】</span></div><div class="info-card"><span class="info-card-label">论文指南</span><span class="info-card-value">【待填写】</span></div></div></div>
                 </div>
             </div>
         </section>
@@ -325,13 +262,18 @@
         <!-- 生活篇 -->
         <section id="view-life" class="view-panel content-panel">
             <div class="container">
-                <div class="content-header"><h2>生活篇</h2><p>宿舍、食堂、超市、快递收发，全方位生活指南</p></div>
-                <div class="quick-nav"><span class="quick-nav-label">快速跳转：</span><a href="#life-1" class="quick-nav-link">宿舍规定</a><a href="#life-2" class="quick-nav-link">食堂攻略</a><a href="#life-3" class="quick-nav-link">超市购物</a><a href="#life-4" class="quick-nav-link">快递收发</a></div>
+                <div class="content-header"><h2>生活篇</h2><p>宿舍、食堂、超市、快递收发</p></div>
+                <div class="quick-nav"><span class="quick-nav-label">快速跳转：</span>
+                    <button class="quick-nav-link" data-scroll="life-1">宿舍规定</button>
+                    <button class="quick-nav-link" data-scroll="life-2">食堂攻略</button>
+                    <button class="quick-nav-link" data-scroll="life-3">超市购物</button>
+                    <button class="quick-nav-link" data-scroll="life-4">快递收发</button>
+                </div>
                 <div class="content-blocks">
-                    <div class="content-block" id="life-1"><h3>◇ 宿舍规定</h3><p>【宿舍楼分布、入住须知、门禁时间、电器限制、报修流程等】</p><div class="info-cards"><div class="info-card"><span class="info-card-label">门禁时间</span><span class="info-card-value">【待填写】</span></div><div class="info-card"><span class="info-card-label">报修方式</span><span class="info-card-value">【待填写】</span></div></div></div>
-                    <div class="content-block" id="life-2"><h3>◇ 食堂攻略</h3><p>【各食堂位置、特色档口、开放时间、支付方式】</p></div>
-                    <div class="content-block" id="life-3"><h3>◇ 超市与购物</h3><p>【校内超市、便利店位置，周边商圈、外卖取餐点】</p></div>
-                    <div class="content-block" id="life-4"><h3>◇ 快递收发</h3><p>【快递驿站位置、取件流程、寄件服务、营业时间】</p></div>
+                    <div class="content-block" id="life-1"><h3>◈ 宿舍规定</h3><p>【宿舍楼分布、入住须知、门禁时间、电器限制、报修流程等。】</p><div class="info-cards"><div class="info-card"><span class="info-card-label">门禁时间</span><span class="info-card-value">【待填写】</span></div><div class="info-card"><span class="info-card-label">报修方式</span><span class="info-card-value">【待填写】</span></div></div></div>
+                    <div class="content-block" id="life-2"><h3>◈ 食堂攻略</h3><p>【各食堂位置、特色档口、开放时间、支付方式。】</p></div>
+                    <div class="content-block" id="life-3"><h3>◈ 超市与购物</h3><p>【校内超市、便利店位置，周边商圈、外卖取餐点。】</p></div>
+                    <div class="content-block" id="life-4"><h3>◈ 快递收发</h3><p>【快递驿站位置、取件流程、寄件服务、营业时间。】</p></div>
                 </div>
             </div>
         </section>
@@ -339,13 +281,18 @@
         <!-- 服务篇 -->
         <section id="view-service" class="view-panel content-panel">
             <div class="container">
-                <div class="content-header"><h2>服务篇</h2><p>医务室、心理咨询、行政办事、校园卡，一站式服务指引</p></div>
-                <div class="quick-nav"><span class="quick-nav-label">快速跳转：</span><a href="#svc-1" class="quick-nav-link">医务室</a><a href="#svc-2" class="quick-nav-link">心理咨询</a><a href="#svc-3" class="quick-nav-link">行政事务</a><a href="#svc-4" class="quick-nav-link">校园卡</a></div>
+                <div class="content-header"><h2>服务篇</h2><p>医务室、心理咨询、行政办事、校园卡</p></div>
+                <div class="quick-nav"><span class="quick-nav-label">快速跳转：</span>
+                    <button class="quick-nav-link" data-scroll="svc-1">医务室</button>
+                    <button class="quick-nav-link" data-scroll="svc-2">心理咨询</button>
+                    <button class="quick-nav-link" data-scroll="svc-3">行政事务</button>
+                    <button class="quick-nav-link" data-scroll="svc-4">校园卡</button>
+                </div>
                 <div class="content-blocks">
-                    <div class="content-block" id="svc-1"><h3>◇ 医务室</h3><p>【校医院位置、就诊时间、急诊电话、医保报销流程】</p><div class="info-cards"><div class="info-card"><span class="info-card-label">位置</span><span class="info-card-value">【待填写】</span></div><div class="info-card"><span class="info-card-label">急诊电话</span><span class="info-card-value">【待填写】</span></div></div></div>
-                    <div class="content-block" id="svc-2"><h3>◇ 心理咨询</h3><p>【心理咨询中心预约方式、开放时间、24小时心理热线】</p></div>
-                    <div class="content-block" id="svc-3"><h3>◇ 行政事务</h3><p>【教务处、学生处、财务处等常用部门地点及办事流程】</p></div>
-                    <div class="content-block" id="svc-4"><h3>◇ 校园卡</h3><p>【校园卡功能、充值方式、挂失补办流程、使用范围】</p></div>
+                    <div class="content-block" id="svc-1"><h3>◉ 医务室</h3><p>【校医院位置、就诊时间、急诊电话、医保报销流程。】</p><div class="info-cards"><div class="info-card"><span class="info-card-label">位置</span><span class="info-card-value">【待填写】</span></div><div class="info-card"><span class="info-card-label">急诊电话</span><span class="info-card-value">【待填写】</span></div></div></div>
+                    <div class="content-block" id="svc-2"><h3>◉ 心理咨询</h3><p>【心理咨询中心预约方式、开放时间、24小时心理热线。】</p></div>
+                    <div class="content-block" id="svc-3"><h3>◉ 行政事务</h3><p>【教务处、学生处、财务处等常用部门地点及办事流程。】</p></div>
+                    <div class="content-block" id="svc-4"><h3>◉ 校园卡</h3><p>【校园卡功能、充值方式、挂失补办流程、使用范围。】</p></div>
                 </div>
             </div>
         </section>
@@ -353,12 +300,16 @@
         <!-- 活动篇 -->
         <section id="view-activity" class="view-panel content-panel">
             <div class="container">
-                <div class="content-header"><h2>活动篇</h2><p>社团、体育、文化节，让你的课余生活精彩纷呈</p></div>
-                <div class="quick-nav"><span class="quick-nav-label">快速跳转：</span><a href="#act-1" class="quick-nav-link">社团介绍</a><a href="#act-2" class="quick-nav-link">体育设施</a><a href="#act-3" class="quick-nav-link">校园活动</a></div>
+                <div class="content-header"><h2>活动篇</h2><p>社团、体育、文化节</p></div>
+                <div class="quick-nav"><span class="quick-nav-label">快速跳转：</span>
+                    <button class="quick-nav-link" data-scroll="act-1">社团介绍</button>
+                    <button class="quick-nav-link" data-scroll="act-2">体育设施</button>
+                    <button class="quick-nav-link" data-scroll="act-3">校园活动</button>
+                </div>
                 <div class="content-blocks">
-                    <div class="content-block" id="act-1"><h3>◇ 社团介绍</h3><p>【百团名录、加入方式、社团活动时间、报名渠道】</p></div>
-                    <div class="content-block" id="act-2"><h3>◇ 体育设施</h3><p>【体育馆、操场、游泳馆位置及预约方式】</p></div>
-                    <div class="content-block" id="act-3"><h3>◇ 校园活动</h3><p>【年度文化节、迎新晚会、学术讲座、运动会等】</p></div>
+                    <div class="content-block" id="act-1"><h3>◌ 社团介绍</h3><p>【百团名录、加入方式、社团活动时间、报名渠道。】</p></div>
+                    <div class="content-block" id="act-2"><h3>◌ 体育设施</h3><p>【体育馆、操场、游泳馆位置及预约方式。】</p></div>
+                    <div class="content-block" id="act-3"><h3>◌ 校园活动</h3><p>【年度文化节、迎新晚会、学术讲座、运动会等。】</p></div>
                 </div>
             </div>
         </section>
@@ -366,12 +317,16 @@
         <!-- 交通篇 -->
         <section id="view-transport" class="view-panel content-panel">
             <div class="container">
-                <div class="content-header"><h2>交通篇</h2><p>校内班车、周边公交地铁，畅行无阻</p></div>
-                <div class="quick-nav"><span class="quick-nav-label">快速跳转：</span><a href="#trp-1" class="quick-nav-link">校内班车</a><a href="#trp-2" class="quick-nav-link">周边公交</a><a href="#trp-3" class="quick-nav-link">地铁出行</a></div>
+                <div class="content-header"><h2>交通篇</h2><p>校内班车、周边公交地铁</p></div>
+                <div class="quick-nav"><span class="quick-nav-label">快速跳转：</span>
+                    <button class="quick-nav-link" data-scroll="trp-1">校内班车</button>
+                    <button class="quick-nav-link" data-scroll="trp-2">周边公交</button>
+                    <button class="quick-nav-link" data-scroll="trp-3">地铁出行</button>
+                </div>
                 <div class="content-blocks">
-                    <div class="content-block" id="trp-1"><h3>◇ 校内班车</h3><p>【班车时刻表、乘车点、路线图】</p></div>
-                    <div class="content-block" id="trp-2"><h3>◇ 周边公交</h3><p>【常用公交线路、周边站点、到达商圈/车站的推荐线路】</p></div>
-                    <div class="content-block" id="trp-3"><h3>◇ 地铁出行</h3><p>【最近地铁站、步行路线、首末班时间、换乘指南】</p></div>
+                    <div class="content-block" id="trp-1"><h3>◍ 校内班车</h3><p>【班车时刻表、乘车点、路线图。】</p></div>
+                    <div class="content-block" id="trp-2"><h3>◍ 周边公交</h3><p>【常用公交线路、周边站点、到达商圈/车站的推荐线路。】</p></div>
+                    <div class="content-block" id="trp-3"><h3>◍ 地铁出行</h3><p>【最近地铁站、步行路线、首末班时间、换乘指南。】</p></div>
                 </div>
             </div>
         </section>
@@ -381,8 +336,8 @@
             <div class="container">
                 <div class="content-header"><h2>紧急联系</h2><p>重要电话与应急指南，安全第一</p></div>
                 <div class="content-blocks">
-                    <div class="content-block"><h3>◇ 重要电话</h3><div class="info-cards"><div class="info-card"><span class="info-card-label">校园安保</span><span class="info-card-value">【待填写】</span></div><div class="info-card"><span class="info-card-label">急救电话</span><span class="info-card-value">【待填写】</span></div><div class="info-card"><span class="info-card-label">24小时报修</span><span class="info-card-value">【待填写】</span></div></div></div>
-                    <div class="content-block"><h3>◇ 应急流程</h3><p>【火灾、地震等突发情况逃生路线、集合点、应急物资领取点】</p></div>
+                    <div class="content-block"><h3>◈ 重要电话</h3><div class="info-cards"><div class="info-card"><span class="info-card-label">校园安保</span><span class="info-card-value">【待填写】</span></div><div class="info-card"><span class="info-card-label">急救电话</span><span class="info-card-value">【待填写】</span></div><div class="info-card"><span class="info-card-label">24小时报修</span><span class="info-card-value">【待填写】</span></div></div></div>
+                    <div class="content-block"><h3>◈ 应急流程</h3><p>【火灾、地震等突发情况逃生路线、集合点、应急物资领取点。】</p></div>
                 </div>
             </div>
         </section>
@@ -392,24 +347,21 @@
             <div class="container">
                 <div class="content-header"><h2>常见问题</h2><p>新生最常问的都在这里，入学必看</p></div>
                 <div class="content-blocks">
-                    <div class="content-block"><h3>◇ 热门问答</h3><p>【以下问题可替换为真实FAQ】</p><div class="info-cards"><div class="info-card"><span class="info-card-label">如何选课？</span><span class="info-card-value">【回答概要】</span></div><div class="info-card"><span class="info-card-label">宿舍可以几点回？</span><span class="info-card-value">【回答概要】</span></div><div class="info-card"><span class="info-card-label">校园卡丢了怎么办？</span><span class="info-card-value">【回答概要】</span></div></div></div>
+                    <div class="content-block"><h3>◈ 热门问答</h3><p>【以下问题可替换为真实FAQ】</p><div class="info-cards"><div class="info-card"><span class="info-card-label">如何选课？</span><span class="info-card-value">【回答概要】</span></div><div class="info-card"><span class="info-card-label">宿舍可以几点回？</span><span class="info-card-value">【回答概要】</span></div><div class="info-card"><span class="info-card-label">校园卡丢了怎么办？</span><span class="info-card-value">【回答概要】</span></div></div></div>
                 </div>
             </div>
         </section>
 
-        <!-- 关于页面 -->
+        <!-- 关于 -->
         <section id="view-about" class="view-panel content-panel">
             <div class="container">
                 <div class="content-header"><h2>关于本站</h2><p>希望这些信息能让你的校园生活更轻松</p></div>
-                <div class="content-block"><p>【可以在这里添加网站介绍、更新日志、反馈方式或致谢等】</p></div>
+                <div class="content-block"><p>【可以在这里添加网站介绍、更新日志、反馈方式或致谢等。】</p></div>
             </div>
         </section>
     </main>
 
-    <!-- 返回顶部 -->
-    <button class="back-to-top" id="backToTop" aria-label="返回顶部" title="返回顶部">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
-    </button>
+    <button class="back-to-top" id="backToTop" aria-label="返回顶部"><svg width="20" height="20" viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7" fill="none" stroke="currentColor" stroke-width="2.5"/></svg></button>
 
     <footer class="site-footer">
         <div class="container footer-container">
