@@ -566,27 +566,39 @@ const MoreMenuController = (() => {
 })();
 
 /* ══════════════════════════════════════════════
-   5. 弹窗（Overlay）控制器
-══════════════════════════════════════════════ */
+  5. 弹窗（Overlay）控制器（升级版）
+============================================================ */
 const OverlayController = (() => {
-  const panels = {};     // panelId → { el, closeBtn }
+  const panels = {};
   let activePanel = null;
+  let previousActiveElement = null;
 
   function register(panelId) {
-    const el       = document.getElementById(`overlay-${panelId}`);
+    const el = document.getElementById(`overlay-${panelId}`);
     const closeBtn = document.getElementById(`close-${panelId}`);
     if (!el) return;
 
+    // 保存面板引用
     panels[panelId] = { el, closeBtn };
 
+    // 关闭按钮事件
     if (closeBtn) {
       closeBtn.addEventListener("click", () => close(panelId));
     }
 
-    // 点击遮罩关闭
+    // 点击背景关闭
     el.addEventListener("click", (e) => {
       if (e.target === el) close(panelId);
     });
+
+    // 防止面板内部滚动穿透到底层
+    const scrollable = el.querySelector("[data-overlay-scroll]");
+    if (scrollable) {
+      scrollable.addEventListener("touchmove", (e) => {
+        // 允许面板内部滚动，但阻止传播到 body
+        e.stopPropagation();
+      }, { passive: false });
+    }
   }
 
   function open(panelId) {
@@ -596,16 +608,23 @@ const OverlayController = (() => {
     if (!entry) return;
 
     activePanel = panelId;
-    entry.el.classList.add("visible");
-    document.body.style.overflow = "hidden";
+    previousActiveElement = document.activeElement;
 
-    // 焦点管理
+    // 显示面板
+    entry.el.classList.add("visible");
+    entry.el.setAttribute("aria-hidden", "false");
+
+    // 锁定 body 滚动
+    document.body.style.overflow = "hidden";
+    document.documentElement.style.overflow = "hidden";
+
+    // 焦点管理：将焦点移到面板内第一个可聚焦元素
     setTimeout(() => {
       const focusable = entry.el.querySelector(
         "button, [href], input, select, textarea, [tabindex]:not([tabindex='-1'])"
       );
       if (focusable) focusable.focus();
-    }, 50);
+    }, 100);
   }
 
   function close(panelId) {
@@ -613,8 +632,19 @@ const OverlayController = (() => {
     if (!entry) return;
 
     entry.el.classList.remove("visible");
+    entry.el.setAttribute("aria-hidden", "true");
+
+    // 解锁滚动
     document.body.style.overflow = "";
+    document.documentElement.style.overflow = "";
+
     if (activePanel === panelId) activePanel = null;
+
+    // 恢复焦点
+    if (previousActiveElement) {
+      previousActiveElement.focus();
+      previousActiveElement = null;
+    }
   }
 
   function init() {
@@ -623,7 +653,9 @@ const OverlayController = (() => {
 
     // ESC 关闭
     document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape" && activePanel) close(activePanel);
+      if (e.key === "Escape" && activePanel) {
+        close(activePanel);
+      }
     });
   }
 

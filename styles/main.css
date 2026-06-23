@@ -268,44 +268,96 @@ ul, ol { list-style: none; }
 }
 .sidebar-footer-btn:hover { background: var(--bg-secondary); color: var(--text-primary); }
 
-/* ---- 7. 遮罩弹窗 ---- */
+/* ---- 7. 遮罩弹窗（增强版） ---- */
 .overlay {
-  position: fixed; inset: 0; z-index: 400;
-  display: flex; align-items: center; justify-content: center;
+  position: fixed;
+  inset: 0;
+  z-index: 1000;                 /* 确保高于所有悬浮元素（sidebar 300, fab 150, music 150, header 100） */
+  display: flex;
+  align-items: center;
+  justify-content: center;
   padding: 20px;
-  pointer-events: none; opacity: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
-.overlay.visible { pointer-events: auto; opacity: 1; }
+
+.overlay.visible {
+  pointer-events: auto;
+  opacity: 1;
+}
+
 .overlay-backdrop {
-  position: absolute; inset: 0;
+  position: absolute;
+  inset: 0;
   background: rgba(0, 0, 0, 0.5);
   -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
 }
+
 .overlay-panel {
   position: relative;
   background: var(--bg-card);
   border-radius: var(--radius-xl);
-  width: 100%; max-width: 560px;
-  max-height: 90vh; overflow-y: auto;
-  overscroll-behavior: contain;
+  width: 100%;
+  max-width: 560px;
+  max-height: 90vh;               /* 限制最大高度 */
+  overflow-y: auto;               /* 内容超出时滚动 */
+  overscroll-behavior: contain;   /* 阻止滚动穿透 */
+  -webkit-overflow-scrolling: touch; /* iOS 顺滑滚动 */
   padding: 32px;
   box-shadow: var(--shadow-xl);
+  transform: translateZ(0);       /* 启动硬件加速 */
 }
 
+/* 手机端特殊处理：从底部滑入，同时保留内部滚动 */
+@media (max-width: 599px) {
+  .overlay {
+    align-items: flex-end;
+    padding: 0;
+  }
+
+  .overlay-panel {
+    max-height: 80vh;             /* 给顶部留空间，避免完全遮挡 */
+    border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    width: 100%;
+    max-width: 100%;
+    padding: 24px 20px;
+  }
+
+  /* 动画覆盖：使用底部滑入 */
+  .overlay.visible .overlay-panel {
+    animation: sheet-in 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+}
+
+/* 关闭按钮保持不变 */
 .overlay-close-btn {
-  position: absolute; top: 16px; right: 16px;
-  display: flex; align-items: center; gap: 6px;
+  position: sticky;               /* 改为 sticky，避免被滚动内容覆盖 */
+  top: 0;
+  right: 0;
+  float: right;
+  margin-bottom: 16px;
+  z-index: 20;
+  /* 原有样式 */
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   padding: 7px 14px 7px 10px;
   border-radius: var(--radius-full);
   background: var(--bg-secondary);
-  font-size: 0.8125rem; font-weight: 600;
+  font-size: 0.8125rem;
+  font-weight: 600;
   color: var(--text-secondary);
   transition: background var(--duration-fast), color var(--duration-fast),
               transform var(--duration-fast);
-  z-index: 10;
 }
-.overlay-close-btn:hover { background: var(--bg-tertiary); color: var(--text-primary); }
+.overlay-close-btn:hover {
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+}
 .overlay-close-btn:active { transform: scale(0.95); }
 
 /* ---- 8. 欢迎弹窗内容 ---- */
