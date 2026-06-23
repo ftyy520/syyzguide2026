@@ -1,622 +1,269 @@
 <!DOCTYPE html>
-<html lang="zh-CN" data-theme="light">
+<html lang="zh-CN">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
-  <meta name="description" content="" />
-  <meta name="theme-color" content="#FAFAF8" />
-  <meta name="format-detection" content="telephone=no" />
-
-  <!-- iOS PWA -->
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-
-  <!-- Open Graph（app.js 会在运行时更新内容） -->
-  <meta property="og:type"        content="website" />
-  <meta property="og:title"       content="" />
-  <meta property="og:description" content="" />
-
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#faf9f7" />
   <title>新生指南</title>
 
-  <!-- 防闪白：在 CSS 加载前先应用主题 -->
-  <script>
-    (function () {
-      try {
-        var stored = localStorage.getItem("theme");
-        var preferDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-        var theme = stored || (preferDark ? "dark" : "light");
-        document.documentElement.setAttribute("data-theme", theme);
-      } catch (e) {}
-    })();
-  </script>
-
-  <!-- 样式表（顺序不能颠倒） -->
+  <!-- 样式 -->
   <link rel="stylesheet" href="styles/variables.css" />
   <link rel="stylesheet" href="styles/main.css" />
   <link rel="stylesheet" href="styles/animations.css" />
 </head>
-
 <body>
-<div class="app-container">
+
+<div class="app-container" id="app-container">
 
   <!-- ============================================================
-       顶部导航栏（子页面时显示，主页隐藏）
-       router.js 通过 .visible class 控制显示
+       顶部导航栏（仅在子页面显示）
   ============================================================ -->
-  <header class="site-header" role="banner">
+  <header class="site-header" id="site-header" role="banner">
     <div class="header-inner">
-
-      <!-- 左侧：汉堡菜单 + Logo -->
       <div class="header-left">
-        <button class="icon-btn" id="menu-btn"
-                aria-label="打开导航菜单" aria-expanded="false"
-                aria-controls="sidebar">
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-            <path d="M3 5h14M3 10h14M3 15h14"
-                  stroke="currentColor" stroke-width="1.6"
-                  stroke-linecap="round"/>
+        <button class="icon-btn" id="menu-btn" aria-label="打开菜单">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <line x1="3" y1="12" x2="21" y2="12"/>
+            <line x1="3" y1="18" x2="21" y2="18"/>
           </svg>
         </button>
-
-        <button class="logo-area" id="logo-btn"
-                aria-label="关于本网站">
-          <img data-logo src="" alt="" class="header-logo"
-               style="width:28px;height:28px;object-fit:contain;border-radius:6px;"
-               onerror="this.style.display='none'" />
-          <span data-site-name
-                style="font-size:0.9375rem;font-weight:700;
-                       letter-spacing:-0.02em;color:var(--text-primary);
-                       white-space:nowrap;"></span>
-        </button>
+        <button class="icon-btn" id="logo-btn" aria-label="关于本站" data-site-name></button>
       </div>
-
-      <!-- 中间：当前页面标题 -->
       <div class="header-center">
-        <h1 class="header-title" id="header-title"></h1>
+        <span class="header-title" id="header-title">新生指南</span>
       </div>
-
-      <!-- 右侧：搜索 + 主题切换 + 更多 -->
       <div class="header-right">
-        <button class="icon-btn" id="search-btn"
-                aria-label="搜索">
-          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
-            <circle cx="8" cy="8" r="5.5"
-                    stroke="currentColor" stroke-width="1.6"/>
-            <path d="M12.5 12.5l3 3"
-                  stroke="currentColor" stroke-width="1.6"
-                  stroke-linecap="round"/>
+        <button class="icon-btn" id="search-btn" aria-label="搜索">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+            <circle cx="11" cy="11" r="8"/>
+            <path d="M21 21l-4.35-4.35"/>
           </svg>
         </button>
-
-        <button class="icon-btn" id="theme-toggle"
-                aria-label="切换深浅色模式" aria-pressed="false">
-          <svg width="18" height="18" viewBox="0 0 24 24" id="theme-icon"
-               fill="none" stroke="currentColor" stroke-width="1.8"
-               stroke-linecap="round" aria-hidden="true">
-            <!-- 图标由 ThemeController 动态注入 -->
-          </svg>
+        <button class="icon-btn" id="theme-toggle" aria-label="切换主题" aria-pressed="false">
+          <span id="theme-icon" aria-hidden="true">
+            <!-- 由 ThemeController 动态填充 -->
+          </span>
         </button>
-
-        <button class="icon-btn" id="more-btn"
-                aria-label="更多选项" aria-expanded="false"
-                aria-controls="more-menu">
-          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
-            <circle cx="9" cy="4"  r="1.5" fill="currentColor"/>
-            <circle cx="9" cy="9"  r="1.5" fill="currentColor"/>
-            <circle cx="9" cy="14" r="1.5" fill="currentColor"/>
+        <button class="icon-btn" id="more-btn" aria-label="更多操作">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+            <circle cx="12" cy="5" r="1"/>
+            <circle cx="12" cy="12" r="1"/>
+            <circle cx="12" cy="19" r="1"/>
           </svg>
         </button>
       </div>
-
     </div>
-
     <!-- 面包屑导航 -->
-    <nav class="breadcrumb" id="breadcrumb"
-         aria-label="面包屑导航" style="display:none;">
+    <nav class="breadcrumb" id="breadcrumb" style="display:none;" aria-label="面包屑导航">
       <ol class="breadcrumb-list" id="breadcrumb-list"></ol>
     </nav>
   </header>
 
-
   <!-- ============================================================
-       侧边导航栏
-       ui.js SidebarController 控制
+       侧边栏导航
   ============================================================ -->
-  <div class="sidebar" id="sidebar" role="dialog"
-       aria-modal="true" aria-label="导航菜单">
-
+  <aside class="sidebar" id="sidebar" aria-hidden="true">
     <div class="sidebar-backdrop"></div>
-
-    <nav class="sidebar-nav" aria-hidden="true">
-
-      <!-- 侧边栏头部 -->
+    <nav class="sidebar-nav" aria-label="主导航">
       <div class="sidebar-header">
-        <img data-logo src="" alt=""
-             class="sidebar-logo"
-             onerror="this.style.display='none'" />
-        <span class="sidebar-site-name" data-site-name></span>
+        <img class="sidebar-logo" src="assets/images/logo.png" alt="Logo" data-logo />
+        <span class="sidebar-site-name" data-site-name>新生指南</span>
       </div>
-
-      <!-- 导航链接列表（由 SidebarController.buildSidebarLinks 动态填充） -->
-      <ul class="sidebar-links" id="sidebar-links"
-          role="list" aria-label="页面导航"></ul>
-
-      <!-- 侧边栏底部按钮 -->
+      <ul class="sidebar-links" id="sidebar-links" role="list">
+        <!-- 由 SidebarController 动态生成 -->
+      </ul>
       <div class="sidebar-footer">
-        <button class="sidebar-footer-btn" id="search-btn-sidebar"
-                aria-label="搜索">
-          <svg width="16" height="16" viewBox="0 0 18 18" fill="none" aria-hidden="true">
-            <circle cx="8" cy="8" r="5.5"
-                    stroke="currentColor" stroke-width="1.6"/>
-            <path d="M12.5 12.5l3 3"
-                  stroke="currentColor" stroke-width="1.6"
-                  stroke-linecap="round"/>
-          </svg>
-          <span>搜索</span>
-        </button>
-
-        <button class="sidebar-footer-btn" id="theme-toggle-sidebar"
-                aria-label="切换主题"
-                onclick="ThemeController.toggle()">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
-               stroke="currentColor" stroke-width="1.8"
-               stroke-linecap="round" aria-hidden="true">
-            <circle cx="12" cy="12" r="4"/>
-            <path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42
-                     M16.36 16.36l1.42 1.42M2 12h2M20 12h2
-                     M4.22 19.78l1.42-1.42M16.36 7.64l1.42-1.42"/>
-          </svg>
-          <span id="theme-label">浅色模式</span>
-        </button>
+        <button class="sidebar-footer-btn" data-action="search">🔍 搜索</button>
+        <button class="sidebar-footer-btn" data-action="theme">🌓 主题切换</button>
+        <button class="sidebar-footer-btn" data-action="settings">⚙️ 设置</button>
       </div>
-
     </nav>
-  </div>
-
+  </aside>
 
   <!-- ============================================================
        搜索面板
-       ui.js SearchController 控制
   ============================================================ -->
-  <div class="search-panel" id="search-panel"
-       role="search" aria-label="全站搜索">
-
+  <div class="search-panel" id="search-panel" role="dialog" aria-modal="true" aria-label="搜索">
     <div class="search-panel-inner">
       <div class="search-input-wrapper">
-        <svg class="search-icon" width="16" height="16" viewBox="0 0 18 18"
-             fill="none" aria-hidden="true">
-          <circle cx="8" cy="8" r="5.5"
-                  stroke="currentColor" stroke-width="1.6"/>
-          <path d="M12.5 12.5l3 3"
-                stroke="currentColor" stroke-width="1.6"
-                stroke-linecap="round"/>
+        <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <circle cx="11" cy="11" r="8"/>
+          <path d="M21 21l-4.35-4.35"/>
         </svg>
-        <input type="search" class="search-input" id="search-input"
-               placeholder="搜索板块、文章、内容…"
-               autocomplete="off" autocorrect="off"
-               autocapitalize="off" spellcheck="false"
-               aria-label="搜索关键词" />
+        <input type="text" class="search-input" id="search-input" placeholder="搜索文章…" autocomplete="off" />
       </div>
-      <button class="btn-text" id="search-close-btn"
-              aria-label="关闭搜索">取消</button>
-    </div>
-
-    <div class="search-results" id="search-results"
-         role="region" aria-label="搜索结果" aria-live="polite">
-      <!-- 初始占位 -->
-      <div class="search-placeholder">
-        <svg width="40" height="40" viewBox="0 0 40 40" fill="none"
-             aria-hidden="true">
-          <circle cx="18" cy="18" r="10"
-                  stroke="currentColor" stroke-width="2"/>
-          <path d="M26 26l6 6" stroke="currentColor" stroke-width="2"
-                stroke-linecap="round"/>
+      <button class="icon-btn" id="search-close-btn" aria-label="关闭搜索">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+          <line x1="18" y1="6" x2="6" y2="18"/>
+          <line x1="6" y1="6" x2="18" y2="18"/>
         </svg>
-        <span>输入关键词开始搜索</span>
-      </div>
+      </button>
     </div>
-
+    <div class="search-results" id="search-results"></div>
   </div>
 
-
   <!-- ============================================================
-       更多菜单（下拉）
-       ui.js MoreMenuController 控制
+       更多菜单
   ============================================================ -->
-  <div class="more-menu" id="more-menu" role="menu" aria-label="更多操作">
-
+  <div class="more-menu" id="more-menu">
     <div class="more-menu-backdrop"></div>
-
     <div class="more-menu-panel">
-
-      <button class="more-menu-item" data-action="search"
-              role="menuitem" aria-label="搜索">
-        <svg width="16" height="16" viewBox="0 0 18 18" fill="none" aria-hidden="true">
-          <circle cx="8" cy="8" r="5.5"
-                  stroke="currentColor" stroke-width="1.6"/>
-          <path d="M12.5 12.5l3 3"
-                stroke="currentColor" stroke-width="1.6"
-                stroke-linecap="round"/>
-        </svg>
-        搜索
-      </button>
-
-      <button class="more-menu-item" data-action="theme"
-              role="menuitem" aria-label="切换主题">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
-             stroke="currentColor" stroke-width="1.8"
-             stroke-linecap="round" aria-hidden="true">
-          <path d="M21 12.79A9 9 0 1111.21 3a7 7 0 109.79 9.79z"/>
-        </svg>
-        切换主题
-      </button>
-
-      <div class="more-menu-divider" role="separator"></div>
-
-      <button class="more-menu-item" data-action="settings"
-              role="menuitem" aria-label="设置">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
-             stroke="currentColor" stroke-width="1.8"
-             stroke-linecap="round" aria-hidden="true">
-          <circle cx="12" cy="12" r="3"/>
-          <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42
-                   M16.36 16.36l1.42 1.42M1 12h2M21 12h2
-                   M4.22 19.78l1.42-1.42M16.36 7.64l1.42-1.42"/>
-        </svg>
-        设置
-      </button>
-
-      <div class="more-menu-divider" role="separator"></div>
-
-      <button class="more-menu-item" data-action="home"
-              role="menuitem" aria-label="返回首页">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
-             stroke="currentColor" stroke-width="1.8"
-             stroke-linecap="round" aria-hidden="true">
-          <path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H5a1 1 0 01-1-1V9.5z"/>
-          <path d="M9 21V12h6v9"/>
-        </svg>
-        返回首页
-      </button>
-
+      <button class="more-menu-item" data-action="search">🔍 搜索</button>
+      <button class="more-menu-item" data-action="theme">🌓 切换主题</button>
+      <button class="more-menu-item" data-action="settings">⚙️ 设置</button>
+      <div class="more-menu-divider"></div>
+      <button class="more-menu-item" data-action="home">🏠 返回首页</button>
     </div>
   </div>
 
-
   <!-- ============================================================
-       欢迎弹窗
-       id="overlay-welcome"，ui.js OverlayController 控制
+       弹出层：欢迎
   ============================================================ -->
-  <div class="overlay" id="overlay-welcome"
-       role="dialog" aria-modal="true" aria-labelledby="welcome-title">
-
+  <div class="overlay" id="overlay-welcome" aria-hidden="true">
     <div class="overlay-backdrop"></div>
-
-    <div class="overlay-panel">
-
-      <!-- 关闭按钮（明显，顶部右侧） -->
-      <button class="overlay-close-btn" id="close-welcome"
-              aria-label="关闭欢迎介绍">
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"
-             aria-hidden="true">
-          <path d="M1 1l12 12M13 1L1 13"
-                stroke="currentColor" stroke-width="1.8"
-                stroke-linecap="round"/>
+    <div class="overlay-panel" role="dialog" aria-modal="true" aria-labelledby="welcome-title">
+      <button class="overlay-close-btn" id="close-welcome" aria-label="关闭欢迎">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <line x1="18" y1="6" x2="6" y2="18"/>
+          <line x1="6" y1="6" x2="18" y2="18"/>
         </svg>
         关闭
       </button>
-
-      <!-- Logo -->
       <div class="welcome-logo">
-        <img data-logo src="" alt=""
-             class="logo-img"
-             onerror="this.style.display='none'" />
+        <img class="logo-img" src="assets/images/logo.png" alt="Logo" data-logo />
       </div>
-
-      <!-- 标题 / 副标题（由 app.js fillWelcomeContent 填充） -->
-      <h2 id="welcome-title"    class="welcome-title"></h2>
-      <p  id="welcome-subtitle" class="welcome-subtitle"></p>
-
-      <!-- 描述文字 -->
+      <h2 class="welcome-title" id="welcome-title">欢迎来到新生指南</h2>
+      <p class="welcome-subtitle" id="welcome-subtitle">一切你需要知道的，都在这里</p>
       <div class="welcome-description">
-        <p id="welcome-desc"></p>
-      </div>
-
-      <!-- 功能特性列表（由 app.js 动态生成） -->
-      <ul id="welcome-features" class="welcome-features"
-          role="list" aria-label="网站功能介绍"></ul>
-
-      <!-- 分隔线 -->
-      <div class="section-divider"></div>
-
-      <!-- 音乐选项 -->
-      <p class="section-label">背景音乐</p>
-      <p class="music-hint">进入网站后可随时在右下角开启或关闭音乐</p>
-
-      <div class="music-toggle-row">
-        <label class="toggle-switch" for="welcome-music-toggle">
-          <input type="checkbox" id="welcome-music-toggle" />
-          <span class="toggle-track">
-            <span class="toggle-thumb"></span>
-          </span>
-          <span class="toggle-label">开启背景音乐</span>
-        </label>
-      </div>
-
-      <div class="music-select-row">
-        <span style="font-size:0.875rem;color:var(--text-secondary);">选择曲目</span>
-        <div class="custom-select-wrapper">
-          <select class="custom-select" id="welcome-music-select"
-                  aria-label="选择背景音乐曲目">
-            <!-- 由 app.js 或 music.js 动态填充曲目 -->
-          </select>
-          <svg class="select-arrow" width="14" height="14" viewBox="0 0 14 14"
-               fill="none" aria-hidden="true">
-            <path d="M3 5l4 4 4-4"
-                  stroke="currentColor" stroke-width="1.5"
-                  stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
+        <p id="welcome-desc">这里是专为新同学准备的学校导览手册，你可以在这里找到关于校园生活各方面的详细介绍。</p>
+        <div class="welcome-features" id="welcome-features">
+          <!-- 由 app.js 动态填充 -->
         </div>
       </div>
-
-      <!-- 底部操作区 -->
+      <div class="section-divider"></div>
       <div class="welcome-actions">
-        <label class="no-show-again" for="welcome-no-show">
-          <input type="checkbox" id="welcome-no-show" />
-          <span class="checkbox-custom" aria-hidden="true"></span>
-          <span>下次进入不再显示</span>
+        <label class="no-show-again">
+          <input type="checkbox" id="no-show-checkbox" />
+          <span class="checkbox-custom"></span>
+          <span>不再显示</span>
         </label>
-
-        <button class="btn-primary" id="welcome-start-btn">
-          开始探索
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"
-               aria-hidden="true">
-            <path d="M2 7h10M8 3l4 4-4 4"
-                  stroke="currentColor" stroke-width="1.5"
-                  stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </button>
+        <button class="btn-primary" id="welcome-start-btn">开始探索</button>
       </div>
-
     </div>
   </div>
 
-
   <!-- ============================================================
-       设置弹窗
-       id="overlay-settings"，ui.js OverlayController 控制
+       弹出层：设置
   ============================================================ -->
-  <div class="overlay" id="overlay-settings"
-       role="dialog" aria-modal="true" aria-labelledby="settings-title">
-
+  <div class="overlay" id="overlay-settings" aria-hidden="true">
     <div class="overlay-backdrop"></div>
-
-    <div class="overlay-panel settings-panel">
-
-      <button class="overlay-close-btn" id="close-settings"
-              aria-label="关闭设置">
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"
-             aria-hidden="true">
-          <path d="M1 1l12 12M13 1L1 13"
-                stroke="currentColor" stroke-width="1.8"
-                stroke-linecap="round"/>
+    <div class="overlay-panel settings-panel" role="dialog" aria-modal="true" aria-labelledby="settings-title">
+      <button class="overlay-close-btn" id="close-settings" aria-label="关闭设置">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <line x1="18" y1="6" x2="6" y2="18"/>
+          <line x1="6" y1="6" x2="18" y2="18"/>
         </svg>
         关闭
       </button>
-
       <h2 class="panel-title" id="settings-title">设置</h2>
-
-      <!-- 外观 -->
       <div class="settings-section">
-        <p class="settings-section-title">外观</p>
-
         <div class="settings-row">
-          <span class="settings-row-label">主题模式</span>
-          <button class="btn-secondary"
-                  style="width:auto;margin-top:0;padding:7px 16px;"
-                  onclick="ThemeController.toggle()"
-                  aria-label="切换深浅色主题">
-            <span id="theme-label-settings">切换主题</span>
-          </button>
+          <span class="settings-row-label">主题</span>
+          <span class="toggle-label" id="theme-label">浅色模式</span>
+          <button class="btn-text" id="theme-toggle-settings">切换</button>
         </div>
-      </div>
-
-      <!-- 音乐 -->
-      <div class="settings-section">
-        <p class="settings-section-title">背景音乐</p>
-
         <div class="settings-row">
           <span class="settings-row-label">音量</span>
-          <input type="range" class="volume-slider" id="volume-slider"
-                 min="0" max="100" value="60"
-                 aria-label="音乐音量" />
-        </div>
-
-        <div class="settings-row">
-          <span class="settings-row-label">选择曲目</span>
-          <div class="custom-select-wrapper">
-            <select class="custom-select" id="settings-music-select"
-                    aria-label="选择背景音乐曲目"
-                    onchange="MusicController.loadTrackById
-                              ? MusicController.loadTrackById(this.value)
-                              : null">
-              <!-- 由 app.js 动态填充 -->
-            </select>
-            <svg class="select-arrow" width="14" height="14" viewBox="0 0 14 14"
-                 fill="none" aria-hidden="true">
-              <path d="M3 5l4 4 4-4"
-                    stroke="currentColor" stroke-width="1.5"
-                    stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </div>
+          <input type="range" class="volume-slider" id="volume-slider" min="0" max="100" value="60" aria-label="音量控制" />
         </div>
       </div>
-
-      <!-- 通知 -->
-      <div class="settings-section">
-        <p class="settings-section-title">欢迎弹窗</p>
-
-        <div class="settings-row">
-          <span class="settings-row-label">进入网站时显示欢迎介绍</span>
-          <label class="toggle-switch" for="no-show-checkbox">
-            <input type="checkbox" id="no-show-checkbox" />
-            <span class="toggle-track">
-              <span class="toggle-thumb"></span>
-            </span>
-          </label>
-        </div>
-
-        <button class="btn-secondary"
-                onclick="OverlayController.close('settings'); OverlayController.open('welcome');"
-                aria-label="立即查看欢迎介绍">
-          立即查看欢迎介绍
-        </button>
-      </div>
-
     </div>
   </div>
 
-
   <!-- ============================================================
-       主页视图
-       router.js 通过 display 控制显示/隐藏
+       主视图：首页
   ============================================================ -->
-  <main id="home-view" class="home-view" role="main">
-
-    <!-- Hero 区域 -->
-    <section class="hero-section" aria-label="网站介绍">
-      <div class="hero-bg" aria-hidden="true">
+  <main id="home-view" class="home-view">
+    <section class="hero-section">
+      <div class="hero-bg">
         <div class="hero-gradient"></div>
         <div class="hero-pattern"></div>
       </div>
-
       <div class="hero-content">
-        <!-- Logo -->
         <div class="hero-logo-wrapper">
-          <img data-logo src="" alt=""
-               class="hero-logo"
-               onerror="this.style.display='none'" />
+          <img class="hero-logo" src="assets/images/logo.png" alt="Logo" data-logo />
         </div>
-
-        <!-- 主标题（app.js 填充，支持 \n 换行） -->
-        <h1 class="hero-title" id="hero-title"></h1>
-
-        <!-- 副标题 -->
-        <p class="hero-subtitle" id="hero-subtitle"></p>
-
-        <!-- 向下滚动提示 -->
-        <div class="hero-scroll-hint" aria-hidden="true">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-            <path d="M8 3v10M4 9l4 4 4-4"
-                  stroke="currentColor" stroke-width="1.5"
-                  stroke-linecap="round" stroke-linejoin="round"/>
+        <h1 class="hero-title" id="hero-title">
+          <span>欢迎来到</span><br /><span>新的起点</span>
+        </h1>
+        <p class="hero-subtitle" id="hero-subtitle">专为新同学准备的学校导览手册</p>
+        <div class="hero-scroll-hint">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M8 3v8M4 8l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
-          <span>向下探索</span>
+          向下滚动探索
         </div>
       </div>
     </section>
 
-    <!-- 板块卡片轮播 -->
-    <section class="cards-section" aria-label="板块列表">
-
+    <section class="cards-section">
       <div class="cards-header">
         <div>
           <h2 class="cards-section-title" id="cards-section-title">探索各板块</h2>
-          <p style="font-size:0.8125rem;color:var(--text-tertiary);margin-top:4px;"
-             id="cards-section-subtitle"></p>
+          <p class="cards-section-subtitle" id="cards-section-subtitle">共 N 个板块，N 篇文章</p>
         </div>
-
-        <!-- 电脑端左右切换按钮 -->
-        <div class="cards-nav" aria-label="轮播导航">
-          <button class="cards-nav-btn" id="cards-prev"
-                  aria-label="上一张" disabled>
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
-                 aria-hidden="true">
-              <path d="M10 3L5 8l5 5"
-                    stroke="currentColor" stroke-width="1.6"
-                    stroke-linecap="round" stroke-linejoin="round"/>
+        <div class="cards-nav">
+          <button class="cards-nav-btn" id="cards-prev" aria-label="上一个" disabled>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
           </button>
-          <button class="cards-nav-btn" id="cards-next"
-                  aria-label="下一张">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
-                 aria-hidden="true">
-              <path d="M6 3l5 5-5 5"
-                    stroke="currentColor" stroke-width="1.6"
-                    stroke-linecap="round" stroke-linejoin="round"/>
+          <button class="cards-nav-btn" id="cards-next" aria-label="下一个">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
           </button>
         </div>
       </div>
-
-      <!-- 轮播容器（由 router.js renderSectionCards 填充） -->
-      <div class="cards-carousel-wrapper" role="region"
-           aria-label="板块卡片轮播">
-        <div class="cards-carousel" id="cards-carousel"
-             role="list"></div>
+      <div class="cards-carousel-wrapper">
+        <div class="cards-carousel" id="cards-carousel">
+          <!-- 由 router.js 动态生成卡片 -->
+        </div>
       </div>
-
-      <!-- 轮播指示点 -->
-      <div class="cards-dots" id="cards-dots"
-           role="tablist" aria-label="轮播进度"></div>
-
+      <div class="cards-dots" id="cards-dots"></div>
     </section>
-
-    <!-- 页脚 -->
-    <footer style="padding:24px 32px;text-align:center;
-                   border-top:1px solid var(--border-light);
-                   color:var(--text-tertiary);font-size:0.75rem;"
-            role="contentinfo">
-      <span data-site-name></span>
-      &nbsp;·&nbsp;
-      <span data-year></span>
-      &nbsp;·&nbsp;
-      <span data-site-tagline></span>
-    </footer>
-
   </main>
 
-
   <!-- ============================================================
-       子页面视图（板块首页 & 文章详情 共用）
-       router.js 通过 display 控制显示/隐藏
+       子页面视图
   ============================================================ -->
   <div id="subpage-view" class="subpage-view" style="display:none;">
-
-    <!-- Hero 头图区域 -->
-    <div class="subpage-hero" aria-hidden="true">
+    <div class="subpage-hero">
       <div class="subpage-hero-bg" id="subpage-hero-bg"></div>
       <div class="subpage-hero-content">
-        <h2 class="subpage-title"    id="subpage-title"></h2>
-        <p  class="subpage-subtitle" id="subpage-subtitle"></p>
+        <h1 class="subpage-title" id="subpage-title"></h1>
+        <p class="subpage-subtitle" id="subpage-subtitle"></p>
       </div>
     </div>
-
-    <!-- 主体布局：目录侧边栏 + 内容区 -->
     <div class="subpage-body">
-
-      <!-- 桌面端目录侧边栏（由 router.js buildToc 填充） -->
-      <aside class="toc-sidebar" id="toc-sidebar"
-             aria-label="文章目录" style="display:none;">
+      <!-- 桌面端目录侧边栏 -->
+      <aside class="toc-sidebar" id="toc-sidebar">
         <div class="toc-inner">
           <div class="toc-header">
             <span class="toc-title">目录</span>
           </div>
-          <nav class="toc-nav" id="toc-nav"
-               aria-label="文章章节导航"></nav>
+          <nav class="toc-nav" id="toc-nav" aria-label="文章目录"></nav>
         </div>
       </aside>
 
-           <!-- 内容区 -->
+      <!-- 内容区 -->
       <article class="subpage-content" id="subpage-content"
                role="main" aria-label="页面内容">
         <!-- 由 router.js 动态注入 HTML 内容 -->
       </article>
-
     </div><!-- /.subpage-body -->
-
   </div><!-- /#subpage-view -->
-
 
   <!-- ============================================================
        悬浮操作按钮组（FAB）
@@ -625,7 +272,7 @@
   <div class="fab-group" aria-label="快捷操作">
 
     <!-- 回到顶部 -->
-    <button class="fab" id="fab-scroll-top"
+    <button class="fab fab-scroll-top" id="fab-scroll-top"
             aria-label="回到顶部" style="display:none;">
       <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
            aria-hidden="true">
@@ -647,7 +294,6 @@
     </button>
 
   </div>
-
 
   <!-- ============================================================
        音乐播放器（迷你悬浮条）
@@ -731,7 +377,7 @@
         </svg>
         <input type="range" class="volume-slider" id="music-volume-slider"
                min="0" max="100" value="60"
-               aria-label="音量控制" />
+               aria-label="音乐音量控制" />
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
              stroke="currentColor" stroke-width="1.8"
              stroke-linecap="round" aria-hidden="true">
@@ -745,7 +391,6 @@
 
   </div><!-- /#music-player -->
 
-
   <!-- ============================================================
        Toast 通知容器
        ui.js ToastController 控制
@@ -755,17 +400,20 @@
     <!-- Toast 由 JS 动态插入 -->
   </div>
 
+  <!-- ============================================================
+       页面加载过渡条
+  ============================================================ -->
+  <div class="page-transition" id="page-transition">
+    <div class="transition-bar"></div>
+  </div>
 
 </div><!-- /.app-container -->
 
-
 <!-- ============================================================
-     JavaScript 模块（顺序：数据 → 核心工具 → 控制器 → 入口）
+     JavaScript 模块（顺序：内容 → 核心工具 → 控制器 → 入口）
+     注意：已修正路径，移除了不存在的 data/config.js，将 sections 改为实际的 content.js
 ============================================================ -->
-<script src="data/config.js"></script>
-<script src="data/sections.js"></script>
-
-<script src="js/utils.js"></script>
+<script src="js/content.js"></script>
 <script src="js/router.js"></script>
 <script src="js/ui.js"></script>
 <script src="js/music.js"></script>
