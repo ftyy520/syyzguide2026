@@ -1,0 +1,192 @@
+/* ============================================================
+   variables.css — 设计系统 CSS 变量（完整版）
+   ============================================================ */
+
+/* ── 浅色主题（默认） ── */
+:root {
+  /* 背景层级 */
+  --bg-primary   : #faf9f7;
+  --bg-secondary : #f2f0ec;
+  --bg-tertiary  : #e8e5df;
+  --bg-card      : #ffffff;
+  --bg-overlay   : rgba(0, 0, 0, 0.45);
+
+  /* 文字层级 */
+  --text-primary   : #1a1714;
+  --text-secondary : #5a5550;
+  --text-tertiary  : #9a9590;
+   --text-inverse   : #ffffff;
+
+  /* 强调色 */
+  --accent         : #d4783a;
+  --accent-light   : #f0c4a0;
+  --accent-dark    : #b05a20;
+  --accent-subtle  : rgba(212, 120, 58, 0.12);
+
+  /* 边框 */
+  --border-light   : rgba(0, 0, 0, 0.07);
+  --border-medium  : rgba(0, 0, 0, 0.13);
+  --border-strong  : rgba(0, 0, 0, 0.22);
+
+  /* 阴影 */
+  --shadow-xs  : 0 1px 3px rgba(0,0,0,0.06);
+  --shadow-sm  : 0 2px 8px rgba(0,0,0,0.08);
+  --shadow-md  : 0 4px 16px rgba(0,0,0,0.10);
+  --shadow-lg  : 0 8px 32px rgba(0,0,0,0.13);
+  --shadow-xl  : 0 16px 48px rgba(0,0,0,0.16);
+
+  /* 圆角 */
+  --radius-xs  : 4px;
+  --radius-sm  : 8px;
+  --radius-md  : 12px;
+  --radius-lg  : 18px;
+  --radius-xl  : 24px;
+  --radius-full: 9999px;
+
+  /* 间距 */
+  --space-1  : 4px;
+  --space-2  : 8px;
+  --space-3  : 12px;
+  --space-4  : 16px;
+  --space-5  : 20px;
+  --space-6  : 24px;
+  --space-8  : 32px;
+  --space-10 : 40px;
+  --space-12 : 48px;
+  --space-16 : 64px;
+
+  /* 字体 */
+  --font-sans   : -apple-system, BlinkMacSystemFont, "PingFang SC",
+                  "Hiragino Sans GB", "Microsoft YaHei", "Segoe UI",
+                  sans-serif;
+  --font-serif  : "Georgia", "Times New Roman", "SimSun", serif;
+  --font-mono   : "SF Mono", "Fira Code", "Consolas", monospace;
+
+  /* 字号 */
+  --text-xs   : 0.70rem;
+  --text-sm   : 0.80rem;
+  --text-base : 0.925rem;
+  --text-md   : 1.00rem;
+  --text-lg   : 1.10rem;
+  --text-xl   : 1.25rem;
+  --text-2xl  : 1.50rem;
+  --text-3xl  : 1.875rem;
+  --text-4xl  : 2.25rem;
+
+  /* 行高 */
+  --leading-tight  : 1.25;
+  --leading-snug   : 1.4;
+  --leading-normal : 1.65;
+  --leading-relaxed: 1.8;
+
+  /* 字重 */
+  --weight-normal  : 400;
+  --weight-medium  : 500;
+  --weight-semibold: 600;
+  --weight-bold    : 700;
+
+  /* 动画时长 */
+  --duration-fast   : 120ms;
+  --duration-normal : 220ms;
+  --duration-slow   : 380ms;
+  --duration-slower : 550ms;
+
+  /* 缓动曲线 */
+  --ease-out      : cubic-bezier(0.0, 0.0, 0.2, 1.0);
+  --ease-in       : cubic-bezier(0.4, 0.0, 1.0, 1.0);
+  --ease-in-out   : cubic-bezier(0.4, 0.0, 0.2, 1.0);
+  --ease-out-expo : cubic-bezier(0.19, 1.0, 0.22, 1.0);
+  --ease-spring   : cubic-bezier(0.34, 1.56, 0.64, 1.0);
+
+  /* 布局 */
+  --header-height    : 56px;
+  --sidebar-width    : 280px;
+  --content-max-width: 760px;
+  --toc-width        : 220px;
+  --music-player-h   : 52px;
+
+  /* z-index 层级 */
+  --z-base     :   0;
+  --z-raised   :  10;
+  --z-dropdown :  100;
+  --z-sticky   :  200;
+  --z-overlay  :  300;
+  --z-modal    :  400;
+  --z-toast    :  500;
+  --z-top      : 9999;
+}
+
+/* ── 深色主题 ── */
+[data-theme="dark"] {
+  /* 背景层级 */
+  --bg-primary   : #141210;
+  --bg-secondary : #1e1b18;
+  --bg-tertiary  : #2a2620;
+  --bg-card      : #201d1a;
+  --bg-overlay   : rgba(0, 0, 0, 0.65);
+
+  /* 文字层级 */
+  --text-primary   : #f0ece6;
+  --text-secondary : #a09890;
+  --text-tertiary  : #6a6460;
+  --text-inverse   : #141210;
+
+  /* 强调色（深色下稍亮） */
+  --accent         : #e8904e;
+  --accent-light   : #c06830;
+  --accent-dark    : #f0b080;
+  --accent-subtle  : rgba(232, 144, 78, 0.15);
+
+  /* 边框 */
+  --border-light   : rgba(255, 255, 255, 0.06);
+  --border-medium  : rgba(255, 255, 255, 0.11);
+  --border-strong  : rgba(255, 255, 255, 0.20);
+
+  /* 阴影（深色下加深） */
+  --shadow-xs  : 0 1px 3px rgba(0,0,0,0.25);
+  --shadow-sm  : 0 2px 8px rgba(0,0,0,0.35);
+  --shadow-md  : 0 4px 16px rgba(0,0,0,0.45);
+  --shadow-lg  : 0 8px 32px rgba(0,0,0,0.55);
+  --shadow-xl  : 0 16px 48px rgba(0,0,0,0.65);
+}
+
+/* ── 系统自动深色（无用户手动设置时生效） ── */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg-primary   : #141210;
+    --bg-secondary : #1e1b18;
+    --bg-tertiary  : #2a2620;
+    --bg-card      : #201d1a;
+    --bg-overlay   : rgba(0, 0, 0, 0.65);
+
+    --text-primary   : #f0ece6;
+    --text-secondary : #a09890;
+    --text-tertiary  : #6a6460;
+    --text-inverse   : #141210;
+
+    --accent         : #e8904e;
+    --accent-light   : #c06830;
+    --accent-dark    : #f0b080;
+    --accent-subtle  : rgba(232, 144, 78, 0.15);
+
+    --border-light   : rgba(255, 255, 255, 0.06);
+    --border-medium  : rgba(255, 255, 255, 0.11);
+    --border-strong  : rgba(255, 255, 255, 0.20);
+
+    --shadow-xs  : 0 1px 3px rgba(0,0,0,0.25);
+    --shadow-sm  : 0 2px 8px rgba(0,0,0,0.35);
+    --shadow-md  : 0 4px 16px rgba(0,0,0,0.45);
+    --shadow-lg  : 0 8px 32px rgba(0,0,0,0.55);
+    --shadow-xl  : 0 16px 48px rgba(0,0,0,0.65);
+  }
+}
+
+/* ── 减少动画（无障碍） ── */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duration-fast   : 0ms;
+    --duration-normal : 0ms;
+    --duration-slow   : 0ms;
+    --duration-slower : 0ms;
+  }
+}

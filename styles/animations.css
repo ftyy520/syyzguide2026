@@ -1,0 +1,286 @@
+/* ============================================================
+   animations.css — 动画与过渡
+   所有动画时长和缓动曲线统一在这里管理
+   ============================================================ */
+
+/* ── 1. 关键帧定义 ── */
+
+/* 页面加载进度条 */
+@keyframes page-loading {
+  0%   { transform: scaleX(0);    background-position: 0% 0; }
+  50%  { transform: scaleX(0.7);  background-position: 100% 0; }
+  100% { transform: scaleX(0);    background-position: 0% 0; }
+}
+
+/* Hero 区域下箭头弹跳提示 */
+@keyframes bounce-hint {
+  0%, 100% { transform: translateY(0);  opacity: 0.6; }
+  50%       { transform: translateY(5px); opacity: 1;   }
+}
+
+/* 弹窗淡入放大 */
+@keyframes overlay-in {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* 手机弹窗从底部滑入 */
+@keyframes sheet-in {
+  from { transform: translateY(100%); }
+  to   { transform: translateY(0); }
+}
+
+/* 卡片依次淡入（stagger） */
+@keyframes card-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* 搜索结果条目淡入 */
+@keyframes result-fade-in {
+  from {
+    opacity: 0;
+    transform: translateX(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* 子页面内容淡入 */
+@keyframes content-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 音乐播放器旋转动画（播放状态下图标） */
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* 脉冲光晕（播放状态下播放器边框） */
+@keyframes pulse-ring {
+  0%   { box-shadow: 0 0 0 0 rgba(184, 150, 12, 0.3); }
+  70%  { box-shadow: 0 0 0 8px rgba(184, 150, 12, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(184, 150, 12, 0); }
+}
+
+/* 页面整体淡入（首次加载） */
+@keyframes app-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* 子页面英雄区背景缩放 */
+@keyframes hero-bg-zoom {
+  from { transform: scale(1.06); }
+  to   { transform: scale(1); }
+}
+
+/* 数字/标签向上浮出 */
+@keyframes float-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 菜单项依次滑入 */
+@keyframes menu-item-in {
+  from {
+    opacity: 0;
+    transform: translateX(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Toast 提示 */
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes toast-out {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(8px) scale(0.97);
+  }
+}
+
+/* ── 2. 动画应用类 ── */
+
+/* 弹窗出现 */
+.overlay.visible .overlay-panel {
+  animation: overlay-in 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* 手机端底部 sheet */
+@media (max-width: 599px) {
+  .overlay.visible .overlay-panel {
+    animation: sheet-in 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+}
+
+/* App 首次加载 */
+.app-container {
+  animation: app-fade-in 0.6s ease both;
+}
+
+/* 子页面内容淡入 */
+.subpage-content.entering {
+  animation: content-fade-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* 板块卡片依次淡入 */
+.section-card {
+  opacity: 0;
+  animation: card-fade-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* stagger 延迟：每张卡片延迟 80ms */
+.section-card:nth-child(1) { animation-delay: 0.05s; }
+.section-card:nth-child(2) { animation-delay: 0.13s; }
+.section-card:nth-child(3) { animation-delay: 0.21s; }
+.section-card:nth-child(4) { animation-delay: 0.29s; }
+.section-card:nth-child(5) { animation-delay: 0.37s; }
+.section-card:nth-child(6) { animation-delay: 0.45s; }
+
+/* 子页面 Hero 背景缩放 */
+.subpage-hero-bg {
+  animation: hero-bg-zoom 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* 搜索结果淡入 */
+.search-result-item {
+  animation: result-fade-in 0.25s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.search-result-item:nth-child(1) { animation-delay: 0.02s; }
+.search-result-item:nth-child(2) { animation-delay: 0.05s; }
+.search-result-item:nth-child(3) { animation-delay: 0.08s; }
+.search-result-item:nth-child(4) { animation-delay: 0.11s; }
+.search-result-item:nth-child(5) { animation-delay: 0.14s; }
+
+/* 侧边栏菜单项依次滑入 */
+.sidebar.open .sidebar-link-item {
+  animation: menu-item-in 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.sidebar.open .sidebar-link-item:nth-child(1) { animation-delay: 0.05s; }
+.sidebar.open .sidebar-link-item:nth-child(2) { animation-delay: 0.10s; }
+.sidebar.open .sidebar-link-item:nth-child(3) { animation-delay: 0.15s; }
+.sidebar.open .sidebar-link-item:nth-child(4) { animation-delay: 0.20s; }
+.sidebar.open .sidebar-link-item:nth-child(5) { animation-delay: 0.25s; }
+.sidebar.open .sidebar-link-item:nth-child(6) { animation-delay: 0.30s; }
+
+/* 音乐播放状态 */
+.music-player.playing {
+  animation: pulse-ring 2s ease-out infinite;
+}
+
+/* ── 3. 页面切换过渡类 ── */
+
+/* 视图容器通用过渡 */
+.view-enter {
+  opacity: 0;
+  transform: translateY(20px) scale(0.99);
+}
+
+.view-enter-active {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.view-exit {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.view-exit-active {
+  opacity: 0;
+  transform: translateY(-10px) scale(1.01);
+  transition: opacity 0.3s cubic-bezier(0.4, 0, 1, 1),
+              transform 0.3s cubic-bezier(0.4, 0, 1, 1);
+}
+
+/* ── 4. Toast 全局提示 ── */
+.toast-container {
+  position: fixed;
+  bottom: 88px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 600;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  pointer-events: none;
+}
+
+.toast {
+  background: var(--text-primary);
+  color: var(--bg-primary);
+  padding: 10px 18px;
+  border-radius: var(--radius-full);
+  font-size: 0.875rem;
+  font-weight: 500;
+  box-shadow: var(--shadow-lg);
+  white-space: nowrap;
+  animation: toast-in 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+  pointer-events: none;
+}
+
+.toast.removing {
+  animation: toast-out 0.3s cubic-bezier(0.4, 0, 1, 1) both;
+}
+
+/* ── 5. 减少动画（尊重系统设置） ── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
