@@ -124,11 +124,12 @@ const CarouselController = (() => {
     window.addEventListener("mouseup",     ()  => onDragEnd());
 
     // 触摸事件
-    wrapper.addEventListener("touchstart", (e) => onDragStart(e.touches[0].clientX),
-      { passive: true });
-    wrapper.addEventListener("touchmove",  (e) => onDragMove(e.touches[0].clientX),
-      { passive: true });
-    wrapper.addEventListener("touchend",   ()  => onDragEnd());
+   wrapper.addEventListener("touchstart", (e) => onDragStart(e.touches[0].clientX),
+  { passive: false });
+wrapper.addEventListener("touchmove",  (e) => {
+  e.preventDefault();   // ★ 阻止浏览器默认手势和页面滚动
+  onDragMove(e.touches[0].clientX);
+}, { passive: false });
   }
 
   function init() {
