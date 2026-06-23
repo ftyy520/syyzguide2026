@@ -4,18 +4,21 @@
          返回顶部、浮动按钮、主题切换、Toast
    ============================================================ */
 
-/* ══════════════════════════════════════════════
-   1. 轮播控制器
-══════════════════════════════════════════════ */
+/* ============================================================
+   1. 轮播控制器 (Apple-style momentum & snap)
+============================================================ */
 const CarouselController = (() => {
-  let currentIndex  = 0;
-  let totalCards    = 0;
-  let cardWidth     = 0;
-  let isDragging    = false;
-  let startX        = 0;
-  let currentX      = 0;
+  let currentIndex = 0;
+  let totalCards = 0;
+  let cardWidth = 0;
+  let isDragging = false;
+  let startX = 0;
+  let lastX = 0;
+  let startTime = 0;
   let currentTranslate = 0;
-  let prevTranslate    = 0;
+  let prevTranslate = 0;
+  let animationID = null;
+  let isInertiaScrolling = false;
 
   function getElements() {
     return {
@@ -36,21 +39,18 @@ const CarouselController = (() => {
     return firstCard.offsetWidth + gap;
   }
 
-  function updateCarousel(animate) {
+  function updateCarousel(animate = true, callback) {
     const { carousel, prevBtn, nextBtn, dotsWrap } = getElements();
     if (!carousel) return;
 
-    cardWidth        = getCardWidth();
+    cardWidth = getCardWidth();
+    currentIndex = Math.max(0, Math.min(totalCards - 1, currentIndex));
     currentTranslate = -(currentIndex * cardWidth);
 
-    if (animate === false) {
+    if (!animate) {
       carousel.style.transition = "none";
     } else {
-      carousel.style.transition =
-        `transform ${getComputedStyle(document.documentElement)
-          .getPropertyValue("--duration-slow").trim()} ${
-          getComputedStyle(document.documentElement)
-          .getPropertyValue("--ease-out-expo").trim()}`;
+      carousel.style.transition = `transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)`;
     }
 
     carousel.style.transform = `translateX(${currentTranslate}px)`;
@@ -58,11 +58,14 @@ const CarouselController = (() => {
     if (prevBtn) prevBtn.disabled = currentIndex === 0;
     if (nextBtn) nextBtn.disabled = currentIndex >= totalCards - 1;
 
-    // 更新指示点
     if (dotsWrap) {
       dotsWrap.querySelectorAll(".cards-dot").forEach((dot, i) => {
         dot.classList.toggle("active", i === currentIndex);
       });
+    }
+
+    if (callback) {
+      setTimeout(callback, animate ? 500 : 0);
     }
   }
 
@@ -71,7 +74,7 @@ const CarouselController = (() => {
     if (!dotsWrap || !carousel) return;
 
     const cards = carousel.querySelectorAll(".section-card");
-    totalCards  = cards.length;
+    totalCards = cards.length;
     dotsWrap.innerHTML = "";
 
     cards.forEach((_, i) => {
@@ -80,10 +83,60 @@ const CarouselController = (() => {
       dot.setAttribute("aria-label", `跳转到第 ${i + 1} 张`);
       dot.addEventListener("click", () => {
         currentIndex = i;
-        updateCarousel();
+        updateCarousel(true);
       });
       dotsWrap.appendChild(dot);
     });
+  }
+
+  /* 惯性滚动实现 */
+  function startInertia(velocity) {
+    if (isInertiaScrolling) return;
+    isInertiaScrolling = true;
+
+    let v = velocity;
+    const friction = 0.95;
+    const minVelocity = 0.5;
+
+    function step() {
+      if (Math.abs(v) < minVelocity) {
+        // 惯性结束，snap 到最近卡片
+        isInertiaScrolling = false;
+        snapToNearest();
+        return;
+      }
+
+      currentTranslate += v;
+      v *= friction;
+
+      // 边界约束（硬边界，不允许无限滑动）
+      const minTranslate = -((totalCards - 1) * cardWidth);
+      const maxTranslate = 0;
+      if (currentTranslate > maxTranslate) {
+        currentTranslate = maxTranslate;
+        v *= 0.2; // 轻微反弹
+      } else if (currentTranslate < minTranslate) {
+        currentTranslate = minTranslate;
+        v *= 0.2;
+      }
+
+      const { carousel } = getElements();
+      if (carousel) {
+        carousel.style.transition = "none";
+        carousel.style.transform = `translateX(${currentTranslate}px)`;
+      }
+
+      animationID = requestAnimationFrame(step);
+    }
+
+    cancelAnimationFrame(animationID);
+    animationID = requestAnimationFrame(step);
+  }
+
+  function snapToNearest() {
+    const nearestIndex = Math.round(-currentTranslate / cardWidth);
+    currentIndex = Math.max(0, Math.min(totalCards - 1, nearestIndex));
+    updateCarousel(true);
   }
 
   function initDrag() {
@@ -91,17 +144,33 @@ const CarouselController = (() => {
     if (!wrapper || !carousel) return;
 
     function onDragStart(clientX) {
-      isDragging       = true;
-      startX           = clientX;
-      prevTranslate    = currentTranslate;
+      if (isInertiaScrolling) {
+        cancelAnimationFrame(animationID);
+        isInertiaScrolling = false;
+      }
+      isDragging = true;
+      startX = clientX;
+      lastX = clientX;
+      startTime = Date.now();
+      prevTranslate = currentTranslate;
       carousel.style.transition = "none";
     }
 
     function onDragMove(clientX) {
       if (!isDragging) return;
-      currentX         = clientX;
-      const diff       = currentX - startX;
-      currentTranslate = prevTranslate + diff;
+      const dx = clientX - lastX;
+      currentTranslate = prevTranslate + (clientX - startX);
+      lastX = clientX;
+
+      // 边界阻力
+      const minTranslate = -((totalCards - 1) * cardWidth);
+      const maxTranslate = 0;
+      if (currentTranslate > maxTranslate) {
+        currentTranslate = maxTranslate + (currentTranslate - maxTranslate) * 0.3;
+      } else if (currentTranslate < minTranslate) {
+        currentTranslate = minTranslate + (currentTranslate - minTranslate) * 0.3;
+      }
+
       carousel.style.transform = `translateX(${currentTranslate}px)`;
     }
 
@@ -109,27 +178,37 @@ const CarouselController = (() => {
       if (!isDragging) return;
       isDragging = false;
 
-      const movedBy = currentX - startX;
-      if (movedBy < -50 && currentIndex < totalCards - 1) {
-        currentIndex++;
-      } else if (movedBy > 50 && currentIndex > 0) {
-        currentIndex--;
+      const endTime = Date.now();
+      const timeDiff = endTime - startTime || 1;
+      const moveDiff = currentTranslate - prevTranslate;
+      const velocity = (moveDiff / timeDiff) * 15; // 转换系数
+
+      if (Math.abs(velocity) > 1) {
+        startInertia(velocity);
+      } else {
+        snapToNearest();
       }
-      updateCarousel();
     }
 
     // 鼠标事件
-    wrapper.addEventListener("mousedown",  (e) => onDragStart(e.clientX));
-    window.addEventListener("mousemove",   (e) => { if (isDragging) onDragMove(e.clientX); });
-    window.addEventListener("mouseup",     ()  => onDragEnd());
+    wrapper.addEventListener("mousedown", (e) => onDragStart(e.clientX));
+    window.addEventListener("mousemove", (e) => {
+      if (isDragging) {
+        e.preventDefault();
+        onDragMove(e.clientX);
+      }
+    });
+    window.addEventListener("mouseup", () => onDragEnd());
 
     // 触摸事件
-   wrapper.addEventListener("touchstart", (e) => onDragStart(e.touches[0].clientX),
-  { passive: false });
-wrapper.addEventListener("touchmove",  (e) => {
-  e.preventDefault();   // ★ 阻止浏览器默认手势和页面滚动
-  onDragMove(e.touches[0].clientX);
-}, { passive: false });
+    wrapper.addEventListener("touchstart", (e) => onDragStart(e.touches[0].clientX), { passive: false });
+    wrapper.addEventListener("touchmove", (e) => {
+      if (isDragging) {
+        e.preventDefault();
+        onDragMove(e.touches[0].clientX);
+      }
+    }, { passive: false });
+    wrapper.addEventListener("touchend", () => onDragEnd());
   }
 
   function init() {
@@ -137,17 +216,23 @@ wrapper.addEventListener("touchmove",  (e) => {
     if (!carousel) return;
 
     totalCards = carousel.querySelectorAll(".section-card").length;
-    cardWidth  = getCardWidth();
+    cardWidth = getCardWidth();
 
     if (prevBtn) {
       prevBtn.addEventListener("click", () => {
-        if (currentIndex > 0) { currentIndex--; updateCarousel(); }
+        if (currentIndex > 0) {
+          currentIndex--;
+          updateCarousel(true);
+        }
       });
     }
 
     if (nextBtn) {
       nextBtn.addEventListener("click", () => {
-        if (currentIndex < totalCards - 1) { currentIndex++; updateCarousel(); }
+        if (currentIndex < totalCards - 1) {
+          currentIndex++;
+          updateCarousel(true);
+        }
       });
     }
 
@@ -155,16 +240,22 @@ wrapper.addEventListener("touchmove",  (e) => {
     document.addEventListener("keydown", (e) => {
       const homeView = document.getElementById("home-view");
       if (!homeView || homeView.style.display === "none") return;
-      if (e.key === "ArrowLeft"  && currentIndex > 0)            { currentIndex--; updateCarousel(); }
-      if (e.key === "ArrowRight" && currentIndex < totalCards - 1) { currentIndex++; updateCarousel(); }
+      if (e.key === "ArrowLeft" && currentIndex > 0) {
+        currentIndex--;
+        updateCarousel(true);
+      }
+      if (e.key === "ArrowRight" && currentIndex < totalCards - 1) {
+        currentIndex++;
+        updateCarousel(true);
+      }
     });
 
-    // 窗口 resize 时重新计算
+    // 窗口大小变化时重新计算
     window.addEventListener("resize", () => {
-      cardWidth        = getCardWidth();
+      cardWidth = getCardWidth();
       currentTranslate = -(currentIndex * cardWidth);
       carousel.style.transition = "none";
-      carousel.style.transform  = `translateX(${currentTranslate}px)`;
+      carousel.style.transform = `translateX(${currentTranslate}px)`;
     });
 
     initDrag();
@@ -851,20 +942,11 @@ const SettingsController = (() => {
 
   function init() {
     // 音量滑块
-    const volumeSlider = document.getElementById("volume-slider");
-    if (volumeSlider) {
-      const saved = localStorage.getItem("music_volume");
-      volumeSlider.value = saved !== null ? saved : "60";
-      updateSliderTrack(volumeSlider);
+    const SettingsController = (() => {
+  const STORAGE_NO_SHOW = "no_show_welcome";
 
-      volumeSlider.addEventListener("input", () => {
-        updateSliderTrack(volumeSlider);
-        localStorage.setItem("music_volume", volumeSlider.value);
-        MusicController.setVolume(volumeSlider.value / 100);
-      });
-    }
-
-    // 不再显示欢迎弹窗
+  function init() {
+    // 仅保留“不再显示欢迎弹窗”逻辑
     const noShowCheckbox = document.getElementById("no-show-checkbox");
     if (noShowCheckbox) {
       noShowCheckbox.checked = localStorage.getItem(STORAGE_NO_SHOW) === "1";
@@ -872,12 +954,8 @@ const SettingsController = (() => {
         localStorage.setItem(STORAGE_NO_SHOW, noShowCheckbox.checked ? "1" : "0");
       });
     }
-  }
 
-  function updateSliderTrack(slider) {
-    const pct = ((slider.value - slider.min) / (slider.max - slider.min)) * 100;
-    slider.style.background =
-      `linear-gradient(to right, var(--accent) ${pct}%, var(--bg-tertiary) ${pct}%)`;
+    // 如果将来需要主题切换等其他设置，可在此添加
   }
 
   function shouldShowWelcome() {

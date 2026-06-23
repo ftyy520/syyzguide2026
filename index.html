@@ -14,9 +14,7 @@
 
 <div class="app-container" id="app-container">
 
-  <!-- ============================================================
-       顶部导航栏（仅在子页面显示）
-  ============================================================ -->
+  <!-- 顶部导航栏 -->
   <header class="site-header" id="site-header" role="banner">
     <div class="header-inner">
       <div class="header-left">
@@ -56,7 +54,7 @@
     </nav>
   </header>
 
-  <!-- 侧边栏 -->
+  <!-- 侧边栏（含音乐控制） -->
   <aside class="sidebar" id="sidebar" aria-hidden="true">
     <div class="sidebar-backdrop"></div>
     <nav class="sidebar-nav" aria-label="主导航">
@@ -69,6 +67,31 @@
         <button class="sidebar-footer-btn" data-action="search">🔍 搜索</button>
         <button class="sidebar-footer-btn" data-action="theme">🌓 主题切换</button>
         <button class="sidebar-footer-btn" data-action="settings">⚙️ 设置</button>
+        <div class="sidebar-music-control" id="sidebar-music-control">
+          <div class="sidebar-music-info">
+            <span class="sidebar-music-icon">🎵</span>
+            <span class="sidebar-music-title" id="sidebar-music-title">未播放</span>
+          </div>
+          <div class="sidebar-music-buttons">
+            <button class="sidebar-footer-btn" id="sidebar-music-prev" aria-label="上一首">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                <path d="M10 2L4 7l6 5V2z" fill="currentColor"/>
+                <rect x="2" y="2" width="2" height="10" rx="1" fill="currentColor"/>
+              </svg>
+            </button>
+            <button class="sidebar-footer-btn" id="sidebar-music-play" aria-label="播放/暂停">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" id="sidebar-play-icon" aria-hidden="true">
+                <path d="M5 3l9 5-9 5V3z" fill="currentColor"/>
+              </svg>
+            </button>
+            <button class="sidebar-footer-btn" id="sidebar-music-next" aria-label="下一首">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                <path d="M4 2l6 5-6 5V2z" fill="currentColor"/>
+                <rect x="10" y="2" width="2" height="10" rx="1" fill="currentColor"/>
+              </svg>
+            </button>
+          </div>
+        </div>
       </div>
     </nav>
   </aside>
@@ -105,9 +128,7 @@
     </div>
   </div>
 
-  <!-- ============================================================
-       弹出层：欢迎 (overlay-welcome)
-  ============================================================ -->
+  <!-- 弹出层：欢迎 -->
   <div class="overlay" id="overlay-welcome" aria-hidden="true">
     <div class="overlay-backdrop"></div>
     <div class="overlay-panel" data-overlay-scroll>
@@ -139,9 +160,7 @@
     </div>
   </div>
 
-  <!-- ============================================================
-       弹出层：设置 (overlay-settings)
-  ============================================================ -->
+  <!-- 弹出层：设置（已移除音量滑块） -->
   <div class="overlay" id="overlay-settings" aria-hidden="true">
     <div class="overlay-backdrop"></div>
     <div class="overlay-panel settings-panel" data-overlay-scroll>
@@ -158,10 +177,6 @@
           <span class="settings-row-label">主题</span>
           <span class="toggle-label" id="theme-label">浅色模式</span>
           <button class="btn-text" id="theme-toggle-settings">切换</button>
-        </div>
-        <div class="settings-row">
-          <span class="settings-row-label">音量</span>
-          <input type="range" class="volume-slider" id="volume-slider" min="0" max="100" value="60" aria-label="音量控制" />
         </div>
       </div>
     </div>
@@ -239,7 +254,7 @@
 
   <!-- 悬浮按钮组 -->
   <div class="fab-group" aria-label="快捷操作">
-    <button class="fab fab-scroll-top" id="fab-scroll-top" aria-label="回到顶部" style="display:none;">
+    <button class="fab" id="fab-scroll-top" aria-label="回到顶部" style="display:none;">
       <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
         <path d="M9 14V4M4 9l5-5 5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
@@ -252,63 +267,10 @@
     </button>
   </div>
 
-  <!-- 音乐播放器 -->
-  <div class="music-player" id="music-player" role="region" aria-label="背景音乐播放器">
-    <div class="music-bar">
-      <button class="music-btn" id="music-prev-btn" aria-label="上一首">
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-          <path d="M10 2L4 7l6 5V2z" fill="currentColor"/>
-          <rect x="2" y="2" width="2" height="10" rx="1" fill="currentColor"/>
-        </svg>
-      </button>
-      <button class="music-btn music-play-btn" id="music-play-btn" aria-label="播放或暂停" aria-pressed="false">
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" id="music-play-icon" aria-hidden="true">
-          <path d="M5 3l9 5-9 5V3z" fill="currentColor"/>
-        </svg>
-      </button>
-      <button class="music-btn" id="music-next-btn" aria-label="下一首">
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-          <path d="M4 2l6 5-6 5V2z" fill="currentColor"/>
-          <rect x="10" y="2" width="2" height="10" rx="1" fill="currentColor"/>
-        </svg>
-      </button>
-      <span class="music-track-name" id="music-track-name" aria-live="polite">暂无曲目</span>
-      <button class="music-btn" id="music-expand-btn" aria-label="展开音乐详情" aria-expanded="false">
-        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-          <path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </button>
-    </div>
-    <div class="music-detail" aria-hidden="true">
-      <div class="music-cover" aria-hidden="true">
-        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true">
-          <circle cx="16" cy="16" r="14" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 3"/>
-          <circle cx="16" cy="16" r="4" fill="currentColor"/>
-        </svg>
-      </div>
-      <div class="music-volume-row">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
-          <path d="M11 5L6 9H2v6h4l5 4V5z"/>
-        </svg>
-        <input type="range" class="volume-slider" id="music-volume-slider" min="0" max="100" value="60" aria-label="音乐音量控制" />
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
-          <path d="M11 5L6 9H2v6h4l5 4V5z"/>
-          <path d="M15.54 8.46a5 5 0 010 7.07"/>
-          <path d="M19.07 4.93a10 10 0 010 14.14"/>
-        </svg>
-      </div>
-    </div>
-  </div>
-
   <!-- Toast 容器 -->
   <div class="toast-container" id="toast-container" role="status" aria-live="polite" aria-atomic="false"></div>
 
-  <!-- 页面加载过渡条 -->
-  <div class="page-transition" id="page-transition">
-    <div class="transition-bar"></div>
-  </div>
-
-</div><!-- /.app-container -->
+</div>
 
 <script src="js/content.js"></script>
 <script src="js/router.js"></script>
