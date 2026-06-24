@@ -657,8 +657,8 @@ const MoreMenuController = (() => {
 })();
 
 /* ══════════════════════════════════════════════
-  5. 弹窗（Overlay）控制器（升级版）
-============================================================ */
+   5. 弹窗（Overlay）控制器（升级版）
+══════════════════════════════════════════════ */
 const OverlayController = (() => {
   const panels = {};
   let activePanel = null;
@@ -934,33 +934,4 @@ const Toast = (() => {
   return { show };
 })();
 
-/* ══════════════════════════════════════════════
-   10. 设置面板：音量滑块 & 不再显示逻辑
-══════════════════════════════════════════════ */
-const SettingsController = (() => {
-  const STORAGE_NO_SHOW = "no_show_welcome";
-
-  function init() {
-    // 音量滑块
-    const SettingsController = (() => {
-  const STORAGE_NO_SHOW = "no_show_welcome";
-
-  function init() {
-    // 仅保留“不再显示欢迎弹窗”逻辑
-    const noShowCheckbox = document.getElementById("no-show-checkbox");
-    if (noShowCheckbox) {
-      noShowCheckbox.checked = localStorage.getItem(STORAGE_NO_SHOW) === "1";
-      noShowCheckbox.addEventListener("change", () => {
-        localStorage.setItem(STORAGE_NO_SHOW, noShowCheckbox.checked ? "1" : "0");
-      });
-    }
-
-    // 如果将来需要主题切换等其他设置，可在此添加
-  }
-
-  function shouldShowWelcome() {
-    return localStorage.getItem(STORAGE_NO_SHOW) !== "1";
-  }
-
-  return { init, shouldShowWelcome };
-})();
+/* 注意：SettingsController 在 app.js 中正确定义，此处不再重复 */
