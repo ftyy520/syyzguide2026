@@ -89,7 +89,6 @@ const CarouselController = (() => {
     });
   }
 
-  /* 惯性滚动实现 */
   function startInertia(velocity) {
     if (isInertiaScrolling) return;
     isInertiaScrolling = true;
@@ -100,7 +99,6 @@ const CarouselController = (() => {
 
     function step() {
       if (Math.abs(v) < minVelocity) {
-        // 惯性结束，snap 到最近卡片
         isInertiaScrolling = false;
         snapToNearest();
         return;
@@ -109,12 +107,11 @@ const CarouselController = (() => {
       currentTranslate += v;
       v *= friction;
 
-      // 边界约束（硬边界，不允许无限滑动）
       const minTranslate = -((totalCards - 1) * cardWidth);
       const maxTranslate = 0;
       if (currentTranslate > maxTranslate) {
         currentTranslate = maxTranslate;
-        v *= 0.2; // 轻微反弹
+        v *= 0.2;
       } else if (currentTranslate < minTranslate) {
         currentTranslate = minTranslate;
         v *= 0.2;
@@ -158,11 +155,9 @@ const CarouselController = (() => {
 
     function onDragMove(clientX) {
       if (!isDragging) return;
-      const dx = clientX - lastX;
       currentTranslate = prevTranslate + (clientX - startX);
       lastX = clientX;
 
-      // 边界阻力
       const minTranslate = -((totalCards - 1) * cardWidth);
       const maxTranslate = 0;
       if (currentTranslate > maxTranslate) {
@@ -181,7 +176,7 @@ const CarouselController = (() => {
       const endTime = Date.now();
       const timeDiff = endTime - startTime || 1;
       const moveDiff = currentTranslate - prevTranslate;
-      const velocity = (moveDiff / timeDiff) * 15; // 转换系数
+      const velocity = (moveDiff / timeDiff) * 15;
 
       if (Math.abs(velocity) > 1) {
         startInertia(velocity);
@@ -190,7 +185,6 @@ const CarouselController = (() => {
       }
     }
 
-    // 鼠标事件
     wrapper.addEventListener("mousedown", (e) => onDragStart(e.clientX));
     window.addEventListener("mousemove", (e) => {
       if (isDragging) {
@@ -200,7 +194,6 @@ const CarouselController = (() => {
     });
     window.addEventListener("mouseup", () => onDragEnd());
 
-    // 触摸事件
     wrapper.addEventListener("touchstart", (e) => onDragStart(e.touches[0].clientX), { passive: false });
     wrapper.addEventListener("touchmove", (e) => {
       if (isDragging) {
@@ -236,7 +229,6 @@ const CarouselController = (() => {
       });
     }
 
-    // 键盘支持
     document.addEventListener("keydown", (e) => {
       const homeView = document.getElementById("home-view");
       if (!homeView || homeView.style.display === "none") return;
@@ -250,7 +242,6 @@ const CarouselController = (() => {
       }
     });
 
-    // 窗口大小变化时重新计算
     window.addEventListener("resize", () => {
       cardWidth = getCardWidth();
       currentTranslate = -(currentIndex * cardWidth);
@@ -300,16 +291,13 @@ const SidebarController = (() => {
 
     menuBtn.addEventListener("click", toggle);
 
-    // 点击遮罩关闭
     sidebar.querySelector(".sidebar-backdrop")
       ?.addEventListener("click", close);
 
-    // ESC 关闭
     document.addEventListener("keydown", (e) => {
       if (e.key === "Escape" && isOpen) close();
     });
 
-    // 填充侧边栏链接
     buildSidebarLinks();
   }
 
@@ -319,7 +307,6 @@ const SidebarController = (() => {
 
     linksEl.innerHTML = "";
 
-    // 首页链接
     const homeItem = document.createElement("li");
     homeItem.className = "sidebar-link-item";
     const homeBtn  = document.createElement("button");
@@ -335,7 +322,6 @@ const SidebarController = (() => {
     homeItem.appendChild(homeBtn);
     linksEl.appendChild(homeItem);
 
-    // 板块链接
     SITE_CONTENT.sections.forEach(section => {
       const item = document.createElement("li");
       item.className = "sidebar-link-item";
@@ -390,10 +376,8 @@ const SearchController = (() => {
   function toggle() { isOpen ? close() : open(); }
 
   function init() {
-    const searchBtns = document.querySelectorAll(
-      "#search-btn, #search-btn-sidebar"
-    );
-        searchBtns.forEach(btn => btn?.addEventListener("click", toggle));
+    const searchBtns = document.querySelectorAll("#search-btn, #search-btn-sidebar");
+    searchBtns.forEach(btn => btn?.addEventListener("click", toggle));
 
     const closeBtn = document.getElementById("search-close-btn");
     if (closeBtn) closeBtn.addEventListener("click", close);
@@ -404,14 +388,11 @@ const SearchController = (() => {
         clearTimeout(debounce);
         debounce = setTimeout(() => doSearch(input.value.trim()), 200);
       });
-
-      // ESC 关闭
       input.addEventListener("keydown", (e) => {
         if (e.key === "Escape") close();
       });
     }
 
-    // 点击面板外部区域关闭
     document.addEventListener("keydown", (e) => {
       if (e.key === "Escape" && isOpen) close();
     });
@@ -426,8 +407,7 @@ const SearchController = (() => {
         <div class="search-placeholder">
           <svg width="40" height="40" viewBox="0 0 40 40" fill="none" aria-hidden="true">
             <circle cx="18" cy="18" r="10" stroke="currentColor" stroke-width="2"/>
-            <path d="M26 26l6 6" stroke="currentColor" stroke-width="2"
-                  stroke-linecap="round"/>
+            <path d="M26 26l6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
           </svg>
           <span>输入关键词开始搜索</span>
         </div>
@@ -435,12 +415,10 @@ const SearchController = (() => {
       return;
     }
 
-    // 遍历所有板块和文章进行搜索
     const results = [];
     const lowerQuery = query.toLowerCase();
 
     SITE_CONTENT.sections.forEach(section => {
-      // 匹配板块标题
       if (
         section.title.toLowerCase().includes(lowerQuery) ||
         (section.desc && section.desc.toLowerCase().includes(lowerQuery))
@@ -453,17 +431,14 @@ const SearchController = (() => {
         });
       }
 
-      // 匹配文章
       (section.articles || []).forEach(article => {
         const titleMatch   = article.title.toLowerCase().includes(lowerQuery);
         const excerptMatch = article.excerpt && article.excerpt.toLowerCase().includes(lowerQuery);
         const contentMatch = article.content && article.content.toLowerCase().includes(lowerQuery);
 
         if (titleMatch || excerptMatch || contentMatch) {
-          // 提取匹配片段
           let snippet = article.excerpt || "";
           if (contentMatch && !excerptMatch) {
-            // 从正文中截取匹配上下文（剥离 HTML 标签）
             const plainText = (article.content || "")
               .replace(/<[^>]+>/g, " ")
               .replace(/\s+/g, " ")
@@ -472,9 +447,7 @@ const SearchController = (() => {
             if (idx !== -1) {
               const start = Math.max(0, idx - 40);
               const end   = Math.min(plainText.length, idx + query.length + 60);
-              snippet = (start > 0 ? "…" : "") +
-                        plainText.slice(start, end) +
-                        (end < plainText.length ? "…" : "");
+              snippet = (start > 0 ? "…" : "") + plainText.slice(start, end) + (end < plainText.length ? "…" : "");
             }
           }
           results.push({
@@ -488,58 +461,43 @@ const SearchController = (() => {
     });
 
     if (results.length === 0) {
-      resultsEl.innerHTML = `
-        <div class="search-no-results">
-          <p>没有找到与「${escapeHtml(query)}」相关的内容</p>
-        </div>
-      `;
+      resultsEl.innerHTML = `<div class="search-no-results"><p>没有找到与「${escapeHtml(query)}」相关的内容</p></div>`;
       return;
     }
 
-    // 渲染搜索结果
     resultsEl.innerHTML = "";
 
-    // 分组：板块结果
     const sectionResults = results.filter(r => r.type === "section");
     const articleResults = results.filter(r => r.type === "article");
 
     if (sectionResults.length > 0) {
       const groupLabel = document.createElement("div");
-      groupLabel.className   = "search-group-label";
+      groupLabel.className = "search-group-label";
       groupLabel.textContent = "板块";
       resultsEl.appendChild(groupLabel);
-
-      sectionResults.forEach(r => {
-        resultsEl.appendChild(buildResultItem(r, query));
-      });
+      sectionResults.forEach(r => resultsEl.appendChild(buildResultItem(r, query)));
     }
 
     if (articleResults.length > 0) {
       const groupLabel = document.createElement("div");
-      groupLabel.className   = "search-group-label";
+      groupLabel.className = "search-group-label";
       groupLabel.textContent = "文章";
       resultsEl.appendChild(groupLabel);
-
-      articleResults.forEach(r => {
-        resultsEl.appendChild(buildResultItem(r, query));
-      });
+      articleResults.forEach(r => resultsEl.appendChild(buildResultItem(r, query)));
     }
   }
 
   function buildResultItem(result, query) {
     const item = document.createElement("div");
     item.className = "search-result-item";
-    item.setAttribute("role",    "button");
+    item.setAttribute("role", "button");
     item.setAttribute("tabindex", "0");
 
     const sectionLabel = result.type === "article"
       ? `${result.section.icon} ${result.section.title}`
       : "板块";
 
-    const title   = result.type === "article"
-      ? result.article.title
-      : result.section.title;
-
+    const title = result.type === "article" ? result.article.title : result.section.title;
     const snippet = highlightKeyword(escapeHtml(result.snippet), query);
 
     item.innerHTML = `
@@ -549,11 +507,8 @@ const SearchController = (() => {
     `;
 
     item.addEventListener("click", () => {
-      if (result.type === "section") {
-        Router.goSection(result.section.id);
-      } else {
-        Router.goArticle(result.section.id, result.article.id);
-      }
+      if (result.type === "section") Router.goSection(result.section.id);
+      else Router.goArticle(result.section.id, result.article.id);
       close();
     });
 
@@ -567,17 +522,12 @@ const SearchController = (() => {
     return item;
   }
 
-  /* 高亮关键词 */
   function highlightKeyword(text, query) {
     if (!query) return text;
     const escaped = query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-    return text.replace(
-      new RegExp(`(${escaped})`, "gi"),
-      "<mark>$1</mark>"
-    );
+    return text.replace(new RegExp(`(${escaped})`, "gi"), "<mark>$1</mark>");
   }
 
-  /* HTML 转义 */
   function escapeHtml(str) {
     if (!str) return "";
     return str
@@ -624,7 +574,6 @@ const MoreMenuController = (() => {
       if (e.key === "Escape" && isOpen) close();
     });
 
-    // 菜单项点击
     document.querySelectorAll(".more-menu-item[data-action]").forEach(item => {
       item.addEventListener("click", () => {
         const action = item.dataset.action;
@@ -636,20 +585,10 @@ const MoreMenuController = (() => {
 
   function handleAction(action) {
     switch (action) {
-      case "search":
-        SearchController.open();
-        break;
-      case "theme":
-        ThemeController.toggle();
-        break;
-      case "settings":
-        OverlayController.open("settings");
-        break;
-      case "home":
-        Router.goHome();
-        break;
-      default:
-        break;
+      case "search": SearchController.open(); break;
+      case "theme": ThemeController.toggle(); break;
+      case "settings": OverlayController.open("settings"); break;
+      case "home": Router.goHome(); break;
     }
   }
 
@@ -657,7 +596,7 @@ const MoreMenuController = (() => {
 })();
 
 /* ══════════════════════════════════════════════
-   5. 弹窗（Overlay）控制器（升级版）
+   5. 弹窗（Overlay）控制器
 ══════════════════════════════════════════════ */
 const OverlayController = (() => {
   const panels = {};
@@ -669,24 +608,19 @@ const OverlayController = (() => {
     const closeBtn = document.getElementById(`close-${panelId}`);
     if (!el) return;
 
-    // 保存面板引用
     panels[panelId] = { el, closeBtn };
 
-    // 关闭按钮事件
     if (closeBtn) {
       closeBtn.addEventListener("click", () => close(panelId));
     }
 
-    // 点击背景关闭
     el.addEventListener("click", (e) => {
       if (e.target === el) close(panelId);
     });
 
-    // 防止面板内部滚动穿透到底层
     const scrollable = el.querySelector("[data-overlay-scroll]");
     if (scrollable) {
       scrollable.addEventListener("touchmove", (e) => {
-        // 允许面板内部滚动，但阻止传播到 body
         e.stopPropagation();
       }, { passive: false });
     }
@@ -701,15 +635,12 @@ const OverlayController = (() => {
     activePanel = panelId;
     previousActiveElement = document.activeElement;
 
-    // 显示面板
     entry.el.classList.add("visible");
     entry.el.setAttribute("aria-hidden", "false");
 
-    // 锁定 body 滚动
     document.body.style.overflow = "hidden";
     document.documentElement.style.overflow = "hidden";
 
-    // 焦点管理：将焦点移到面板内第一个可聚焦元素
     setTimeout(() => {
       const focusable = entry.el.querySelector(
         "button, [href], input, select, textarea, [tabindex]:not([tabindex='-1'])"
@@ -725,13 +656,11 @@ const OverlayController = (() => {
     entry.el.classList.remove("visible");
     entry.el.setAttribute("aria-hidden", "true");
 
-    // 解锁滚动
     document.body.style.overflow = "";
     document.documentElement.style.overflow = "";
 
     if (activePanel === panelId) activePanel = null;
 
-    // 恢复焦点
     if (previousActiveElement) {
       previousActiveElement.focus();
       previousActiveElement = null;
@@ -739,10 +668,8 @@ const OverlayController = (() => {
   }
 
   function init() {
-    // 注册所有 overlay 面板
     ["welcome", "settings"].forEach(id => register(id));
 
-    // ESC 关闭
     document.addEventListener("keydown", (e) => {
       if (e.key === "Escape" && activePanel) {
         close(activePanel);
@@ -788,22 +715,10 @@ const ThemeController = (() => {
     btn.setAttribute("aria-pressed", String(isDark));
 
     if (icon) {
-      icon.innerHTML = isDark
-        ? /* 太阳图标 */ `
-          <circle cx="12" cy="12" r="4"/>
-          <path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M16.36 16.36l1.42 1.42
-                   M2 12h2M20 12h2M4.22 19.78l1.42-1.42M16.36 7.64l1.42-1.42"
-                stroke="currentColor" stroke-width="1.8"
-                stroke-linecap="round" fill="none"/>
-        `
-        : /* 月亮图标 */ `
-          <path d="M21 12.79A9 9 0 1111.21 3a7 7 0 109.79 9.79z"
-                stroke="currentColor" stroke-width="1.8"
-                stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-        `;
+      // 使用 emoji 图标，清晰直观
+      icon.textContent = isDark ? '☀️' : '🌙';
     }
 
-    // 同步设置面板中的主题标签
     const themeLabel = document.getElementById("theme-label");
     if (themeLabel) {
       themeLabel.textContent = isDark ? "深色模式" : "浅色模式";
@@ -816,7 +731,6 @@ const ThemeController = (() => {
     const btn = document.getElementById("theme-toggle");
     if (btn) btn.addEventListener("click", toggle);
 
-    // 监听系统主题变化（仅在用户未手动设置时生效）
     window.matchMedia("(prefers-color-scheme: dark)")
       .addEventListener("change", (e) => {
         if (!localStorage.getItem(STORAGE_KEY)) {
@@ -838,19 +752,16 @@ const FabController = (() => {
     const scrollTopBtn = document.getElementById("fab-scroll-top");
     const homeBtn      = document.getElementById("fab-home");
 
-    // 返回顶部按钮
     if (scrollTopBtn) {
       scrollTopBtn.addEventListener("click", () => {
         window.scrollTo({ top: 0, behavior: "smooth" });
       });
     }
 
-    // 返回首页按钮
     if (homeBtn) {
       homeBtn.addEventListener("click", () => Router.goHome());
     }
 
-    // 监听滚动：控制返回顶部按钮显隐
     window.addEventListener("scroll", () => {
       const scrollY = window.scrollY;
       if (scrollTopBtn) {
@@ -859,11 +770,10 @@ const FabController = (() => {
       }
     }, { passive: true });
 
-    // 初始隐藏
     if (scrollTopBtn) {
-      scrollTopBtn.style.opacity      = "0";
+      scrollTopBtn.style.opacity = "0";
       scrollTopBtn.style.pointerEvents = "none";
-      scrollTopBtn.style.transition   = "opacity 0.3s ease";
+      scrollTopBtn.style.transition = "opacity 0.3s ease";
     }
   }
 
@@ -874,8 +784,8 @@ const FabController = (() => {
    8. Header 滚动行为
 ══════════════════════════════════════════════ */
 const HeaderController = (() => {
-  let lastScrollY  = 0;
-  let ticking      = false;
+  let lastScrollY = 0;
+  let ticking = false;
 
   function init() {
     window.addEventListener("scroll", () => {
@@ -895,16 +805,13 @@ const HeaderController = (() => {
 
     const scrollY = window.scrollY;
 
-    // 向下滚动超过 60px 时隐藏 header，向上滚动时显示
     if (scrollY > lastScrollY && scrollY > 60) {
       header.style.transform = "translateY(-100%)";
     } else {
       header.style.transform = "translateY(0)";
     }
 
-    // 滚动超过 10px 时加背景模糊
     header.classList.toggle("scrolled", scrollY > 10);
-
     lastScrollY = scrollY;
   }
 
@@ -921,7 +828,7 @@ const Toast = (() => {
     if (!container) return;
 
     const toast = document.createElement("div");
-    toast.className   = "toast";
+    toast.className = "toast";
     toast.textContent = message;
     container.appendChild(toast);
 
@@ -934,4 +841,4 @@ const Toast = (() => {
   return { show };
 })();
 
-/* 注意：SettingsController 在 app.js 中正确定义，此处不再重复 */
+/* 注意：SettingsController 在 app.js 中定义，此处不再重复 */

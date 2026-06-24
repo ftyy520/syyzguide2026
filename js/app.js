@@ -49,11 +49,8 @@
     }
   }
 
-  /* ── 欢迎弹窗控制 ── */
-  function handleWelcomeOverlay() {
-    if (SettingsController.shouldShowWelcome()) {
-      setTimeout(() => OverlayController.open("welcome"), 600);
-    }
+  /* ── 欢迎弹窗控制（仅绑定事件，不主动弹出） ── */
+  function bindWelcomeEvents() {
     const startBtn = document.getElementById("welcome-start-btn");
     if (startBtn) startBtn.addEventListener("click", () => OverlayController.close("welcome"));
     const logoBtn = document.getElementById("logo-btn");
@@ -102,10 +99,9 @@
     metaDesc.setAttribute("content", site.tagline);
   }
 
-  /* ── SettingsController 正确定义 ── */
+  /* ── SettingsController ── */
   const SettingsController = (() => {
     const STORAGE_NO_SHOW = "no_show_welcome";
-
     function init() {
       const noShowCheckbox = document.getElementById("no-show-checkbox");
       if (noShowCheckbox) {
@@ -115,11 +111,9 @@
         });
       }
     }
-
     function shouldShowWelcome() {
       return localStorage.getItem(STORAGE_NO_SHOW) !== "1";
     }
-
     return { init, shouldShowWelcome };
   })();
 
@@ -141,9 +135,17 @@
 
     MusicController.init();
 
-    Router.init(function onNavigate() {
+    // 绑定欢迎弹窗相关按钮事件（但不自动弹出）
+    bindWelcomeEvents();
+
+    // 路由初始化，并通过回调控制首次弹窗
+    Router.init(function onNavigate(type) {
       SidebarController.close();
       MoreMenuController.close();
+      // 只有当前是首页时才弹出欢迎弹窗（并且用户未勾选不再显示）
+      if (type === "" && SettingsController.shouldShowWelcome()) {
+        setTimeout(() => OverlayController.open("welcome"), 600);
+      }
     });
 
     CarouselController.init();
@@ -151,8 +153,6 @@
     initGlobalShortcuts();
     initVisibilityHandler();
     initShareMeta();
-
-    handleWelcomeOverlay();
 
     document.documentElement.classList.add("app-ready");
   });

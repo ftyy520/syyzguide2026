@@ -1,8 +1,5 @@
 /* ============================================================
    main.css —— 主样式文件
-   修改说明：
-   - 想换主题色？修改 --accent 和 --accent-dark 变量
-   - 想换字体？修改 --font-sans 变量
    ============================================================ */
 
 /* ---- 1. CSS 变量（设计品牌） ---- */
@@ -87,7 +84,7 @@ html {
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
-  touch-action: manipulation;   /* ★ 消除移动端300ms点击延迟 */
+  touch-action: manipulation;
 }
 
 body {
@@ -268,7 +265,7 @@ ul, ol { list-style: none; }
 }
 .sidebar-footer-btn:hover { background: var(--bg-secondary); color: var(--text-primary); }
 
-/* ---- 侧边栏音乐控制 ---- */
+/* 侧边栏音乐控制 */
 .sidebar-music-control {
   margin-top: 8px;
   padding: 8px;
@@ -309,11 +306,11 @@ ul, ol { list-style: none; }
   padding: 6px;
 }
 
-/* ---- 7. 遮罩弹窗（增强版） ---- */
+/* ---- 7. 遮罩弹窗（调整尺寸） ---- */
 .overlay {
   position: fixed;
   inset: 0;
-  z-index: 1000;                 /* 确保高于所有悬浮元素（sidebar 300, fab 150, music 150, header 100） */
+  z-index: 1000;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -342,16 +339,16 @@ ul, ol { list-style: none; }
   border-radius: var(--radius-xl);
   width: 100%;
   max-width: 560px;
-  max-height: 90vh;               /* 限制最大高度 */
-  overflow-y: auto;               /* 内容超出时滚动 */
-  overscroll-behavior: contain;   /* 阻止滚动穿透 */
-  -webkit-overflow-scrolling: touch; /* iOS 顺滑滚动 */
+  max-height: 75vh;               /* 桌面端高度 */
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
   padding: 32px;
   box-shadow: var(--shadow-xl);
-  transform: translateZ(0);       /* 启动硬件加速 */
+  transform: translateZ(0);
 }
 
-/* 手机端特殊处理：从底部滑入，同时保留内部滚动 */
+/* 手机端特殊处理 */
 @media (max-width: 599px) {
   .overlay {
     align-items: flex-end;
@@ -359,30 +356,27 @@ ul, ol { list-style: none; }
   }
 
   .overlay-panel {
-    max-height: 80vh;             /* 给顶部留空间，避免完全遮挡 */
+    max-height: 65vh;             /* 手机端更小 */
     border-radius: var(--radius-xl) var(--radius-xl) 0 0;
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
     width: 100%;
     max-width: 100%;
-    padding: 24px 20px;
+    padding: 20px 16px;
   }
 
-  /* 动画覆盖：使用底部滑入 */
-  .overlay.visible .overlay-panel {
-    animation: sheet-in 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
-  }
+  .welcome-title { font-size: 1.25rem; }
+  .welcome-subtitle { font-size: 0.8125rem; }
+  .welcome-features li { padding: 8px 12px; font-size: 0.8125rem; }
 }
 
-/* 关闭按钮保持不变 */
 .overlay-close-btn {
-  position: sticky;               /* 改为 sticky，避免被滚动内容覆盖 */
+  position: sticky;
   top: 0;
   right: 0;
   float: right;
   margin-bottom: 16px;
   z-index: 20;
-  /* 原有样式 */
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -633,7 +627,27 @@ ul, ol { list-style: none; }
 .more-menu-item:active { transform: scale(0.97); }
 .more-menu-divider { height: 1px; background: var(--border-light); margin: 4px 8px; }
 
-
+/* ---- 15. 设置面板 ---- */
+.settings-panel { max-width: 480px; }
+.panel-title {
+  font-size: 1.375rem; font-weight: 800;
+  letter-spacing: -0.025em; color: var(--text-primary);
+  margin-bottom: 28px; padding-right: 80px;
+}
+.settings-section { margin-bottom: 28px; }
+.settings-section:last-child { margin-bottom: 0; }
+.settings-section-title {
+  font-size: 0.75rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.08em;
+  color: var(--text-tertiary); margin-bottom: 12px;
+}
+.settings-row {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 16px; padding: 12px 0;
+  border-bottom: 1px solid var(--border-light);
+}
+.settings-row:last-child { border-bottom: none; }
+.settings-row-label { font-size: 0.9375rem; color: var(--text-primary); flex: 1; }
 
 /* ---- 16. 首页 Hero ---- */
 .home-view { min-height: 100vh; }
@@ -687,7 +701,7 @@ ul, ol { list-style: none; }
   cursor: grab;
   user-select: none;
   -webkit-user-select: none;
-  touch-action: pan-y;   /* ★ 只允许垂直滚动，禁止浏览器水平手势 */
+  touch-action: pan-y;
 }
 .cards-carousel-wrapper:active { cursor: grabbing; }
 
@@ -852,13 +866,11 @@ ul, ol { list-style: none; }
 }
 .image-placeholder-icon { font-size: 2rem; opacity: 0.5; }
 
-
-
-/* ---- 20. 浮动工具栏 ---- */
+/* ---- 19. 浮动工具栏 ---- */
 .fab-group {
   position: fixed; bottom: 24px; right: 20px;
   z-index: 150;
-  display: flex; flex-direction: column; gap: 8px; align-items: center;
+  display: flex; flex-direction: column; gap: 8px; align-items: flex-end;
 }
 .fab {
   width: 44px; height: 44px;
@@ -877,7 +889,26 @@ ul, ol { list-style: none; }
 }
 .fab:active { transform: scale(0.93); box-shadow: var(--shadow-sm); }
 
-/* ---- 21. 页面转场遮罩 ---- */
+/* 返回首页按钮（带文字） */
+.fab-home-btn {
+  width: auto !important;
+  padding: 8px 16px;
+  border-radius: var(--radius-full);
+  gap: 6px;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.fab-home-icon {
+  display: flex;
+  align-items: center;
+}
+
+.fab-home-text {
+  white-space: nowrap;
+}
+
+/* ---- 20. 页面转场遮罩 ---- */
 .page-transition { position: fixed; inset: 0; z-index: 500; pointer-events: none; overflow: hidden; }
 .transition-bar {
   position: absolute; top: 0; left: 0; right: 0;
@@ -888,7 +919,7 @@ ul, ol { list-style: none; }
   border-radius: 0 2px 2px 0;
 }
 
-/* ---- 22. 移动端目录抽屉 ---- */
+/* ---- 21. 移动端目录抽屉 ---- */
 .toc-mobile-trigger {
   display: flex; align-items: center; justify-content: space-between;
   padding: 12px 16px;
@@ -914,7 +945,7 @@ ul, ol { list-style: none; }
   .toc-mobile-trigger, .toc-mobile-content { display: none; }
 }
 
-/* ---- 23. 响应式断点 ---- */
+/* ---- 22. 响应式断点 ---- */
 @media (max-width: 899px) {
   .subpage-body { flex-direction: column; padding: 0 16px 80px; gap: 0; }
   .cards-carousel { padding: 8px 20px 24px; gap: 14px; }
@@ -922,22 +953,10 @@ ul, ol { list-style: none; }
 }
 
 @media (max-width: 599px) {
-  .overlay-panel {
-    padding: 24px 20px;
-    border-radius: var(--radius-xl) var(--radius-xl) 0 0;
-    max-height: 92vh;
-    position: fixed; bottom: 0; left: 0; right: 0;
-    width: 100%; max-width: 100%;
-    border-bottom-left-radius: 0; border-bottom-right-radius: 0;
-  }
-  .overlay { align-items: flex-end; padding: 0; }
-  .welcome-title { font-size: 1.375rem; }
-  .hero-section { padding: 60px 20px 40px; }
   .cards-carousel { padding: 8px 16px 20px; gap: 12px; }
   .section-card { flex: 0 0 80vw; max-width: 80vw; }
   .cards-header { padding: 0 16px 16px; }
   .cards-nav { display: none; }
-  .music-player { bottom: 76px; right: 16px; }
   .fab-group { bottom: 20px; right: 16px; }
   .subpage-hero-content { padding: 20px 16px 24px; }
   .more-menu-panel { right: 8px; }
@@ -950,19 +969,19 @@ ul, ol { list-style: none; }
   .subpage-body { padding: 0 48px 80px; }
 }
 
-/* ---- 24. 焦点样式 ---- */
+/* ---- 23. 焦点样式 ---- */
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
 
-/* ---- 25. 滚动条美化 ---- */
+/* ---- 24. 滚动条美化 ---- */
 ::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: var(--border-medium); border-radius: var(--radius-full); }
 ::-webkit-scrollbar-thumb:hover { background: var(--text-tertiary); }
 
-/* ---- 26. 选中颜色 ---- */
+/* ---- 25. 选中颜色 ---- */
 ::selection { background: var(--accent-subtle); color: var(--accent-dark); }
 
-/* ---- 27. 打印样式 ---- */
+/* ---- 26. 打印样式 ---- */
 @media print {
   .site-header, .sidebar, .music-player, .fab-group,
   .search-panel, .more-menu, .toc-sidebar, .page-transition { display: none !important; }
