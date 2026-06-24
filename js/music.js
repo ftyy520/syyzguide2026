@@ -1,6 +1,5 @@
 /* ============================================================
    music.js —— 背景音乐播放器（侧边栏集成版）
-   完全移除悬浮胶囊，控制按钮位于侧边栏底部
    ============================================================ */
 const MusicController = (() => {
   let audio = null;
@@ -9,7 +8,6 @@ const MusicController = (() => {
   let volume = 0.6;
   let tracks = [];
 
-  /* 侧边栏 DOM 缓存 */
   function sidebarEls() {
     return {
       title   : document.getElementById("sidebar-music-title"),
@@ -129,13 +127,7 @@ const MusicController = (() => {
   }
 
   return {
-    init,
-    play,
-    pause,
-    togglePlay,
-    prev,
-    next,
-    setVolume,
+    init, play, pause, togglePlay, prev, next, setVolume,
     get isPlaying() { return isPlaying; },
     get currentTrack() { return tracks[currentIndex] || null; },
   };
