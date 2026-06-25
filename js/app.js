@@ -17,8 +17,7 @@
     const s = SITE_CONTENT.site;
     document.querySelectorAll("[data-site-name]").forEach(el => el.textContent = s.name);
     document.querySelectorAll("[data-site-tagline]").forEach(el => el.textContent = s.tagline);
-    const heroTitle = document.getElementById("hero-title");
-    if (heroTitle) heroTitle.innerHTML = s.heroTitle.split("\n").map(line => `<span>${line}</span>`).join("<br>");
+    // Hero 标题由 circularText.js 处理，这里不再填充
     const heroSubtitle = document.getElementById("hero-subtitle");
     if (heroSubtitle) heroSubtitle.textContent = s.heroSubtitle;
     document.querySelectorAll("[data-logo]").forEach(logo => {
@@ -49,7 +48,7 @@
     }
   }
 
-  /* ── 欢迎弹窗控制（仅绑定事件，不主动弹出） ── */
+  /* ── 欢迎弹窗控制 ── */
   function bindWelcomeEvents() {
     const startBtn = document.getElementById("welcome-start-btn");
     if (startBtn) startBtn.addEventListener("click", () => OverlayController.close("welcome"));
@@ -112,9 +111,16 @@
       }
     }
     function shouldShowWelcome() {
-      return localStorage.getItem(STORAGE_NO_SHOW) !== "1";
+      // 如果勾选了“不再显示”，永远不弹
+      if (localStorage.getItem(STORAGE_NO_SHOW) === "1") return false;
+      // 否则检查是否在本次会话中已经显示过（sessionStorage）
+      if (sessionStorage.getItem("welcome_shown") === "1") return false;
+      return true;
     }
-    return { init, shouldShowWelcome };
+    function markWelcomeShown() {
+      sessionStorage.setItem("welcome_shown", "1");
+    }
+    return { init, shouldShowWelcome, markWelcomeShown };
   })();
 
   /* ── 主初始化 ── */
@@ -135,16 +141,20 @@
 
     MusicController.init();
 
-    // 绑定欢迎弹窗相关按钮事件（但不自动弹出）
     bindWelcomeEvents();
 
-    // 路由初始化，并通过回调控制首次弹窗
+    // 初始化圆形文字（替换 Hero 标题）
+    CircularText.init();
+
     Router.init(function onNavigate(type) {
       SidebarController.close();
       MoreMenuController.close();
-      // 只有当前是首页时才弹出欢迎弹窗（并且用户未勾选不再显示）
+      // 只有首页且未曾显示过欢迎弹窗时才弹出
       if (type === "" && SettingsController.shouldShowWelcome()) {
-        setTimeout(() => OverlayController.open("welcome"), 600);
+        setTimeout(() => {
+          OverlayController.open("welcome");
+          SettingsController.markWelcomeShown();
+        }, 600);
       }
     });
 

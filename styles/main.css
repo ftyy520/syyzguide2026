@@ -892,11 +892,32 @@ ul, ol { list-style: none; }
 /* 返回首页按钮（带文字） */
 .fab-home-btn {
   width: auto !important;
-  padding: 8px 16px;
+  height: 44px;
+  padding: 8px 20px;
   border-radius: var(--radius-full);
   gap: 6px;
-  font-size: 0.875rem;
-  font-weight: 500;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  background: var(--accent);
+  color: #fff;
+  box-shadow: var(--shadow-md);
+  border: none;
+}
+
+.fab-home-btn:hover {
+  background: var(--accent-dark);
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* 电脑端进一步增大 */
+@media (min-width: 769px) {
+  .fab-home-btn {
+    height: 48px;
+    padding: 10px 24px;
+    font-size: 1rem;
+  }
 }
 
 .fab-home-icon {
@@ -988,4 +1009,38 @@ ul, ol { list-style: none; }
   .subpage-view { padding-top: 0; }
   .subpage-content { max-width: 100%; }
   body { font-size: 12pt; color: #000; }
+}
+
+/* ---- 圆形旋转文字 ---- */
+.circular-text-container {
+  margin: 0 auto;
+  position: relative;
+  width: 200px;
+  height: 200px;
+  transform-origin: center;
+  will-change: transform;
+  cursor: default;
+}
+
+.circular-text {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.circular-text span {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  display: inline-block;
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: var(--text-primary);
+  transform-origin: 0 0;
+  white-space: nowrap;
+  transition: color 0.3s;
+}
+
+.circular-text:hover span {
+  color: var(--accent);
 }
