@@ -1013,10 +1013,10 @@ ul, ol { list-style: none; }
 
 /* ---- 圆形旋转文字 ---- */
 .circular-text-container {
-  margin: 0 auto;
+  margin: 0 auto 28px;
   position: relative;
-  width: 200px;
-  height: 200px;
+  width: 180px;
+  height: 180px;
   transform-origin: center;
   will-change: transform;
   cursor: default;
@@ -1033,7 +1033,7 @@ ul, ol { list-style: none; }
   left: 50%;
   top: 50%;
   display: inline-block;
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   font-weight: 900;
   color: var(--text-primary);
   transform-origin: 0 0;

@@ -7,6 +7,8 @@ const MusicController = (() => {
   let isPlaying = false;
   let volume = 0.6;
   let tracks = [];
+  let errorCount = 0;
+  const MAX_ERRORS = 3;   // 连续错误次数上限
 
   function sidebarEls() {
     return {
@@ -89,11 +91,13 @@ const MusicController = (() => {
 
   function prev() {
     const newIndex = (currentIndex - 1 + tracks.length) % tracks.length;
+    errorCount = 0;
     loadTrack(newIndex, isPlaying);
   }
 
   function next() {
     const newIndex = (currentIndex + 1) % tracks.length;
+    errorCount = 0;
     loadTrack(newIndex, isPlaying);
   }
 
@@ -104,9 +108,20 @@ const MusicController = (() => {
 
   function bindAudioEvents() {
     if (!audio) return;
-    audio.addEventListener("ended", () => next());
+    audio.addEventListener("ended", () => {
+      errorCount = 0;
+      next();
+    });
     audio.addEventListener("error", () => {
-      if (tracks.length > 1) setTimeout(() => next(), 500);
+      errorCount++;
+      // 如果连续错误超过上限，停止切换，避免无限循环
+      if (errorCount >= MAX_ERRORS) {
+        pause();
+        const { title } = sidebarEls();
+        if (title) title.textContent = "音乐加载失败";
+        return;
+      }
+      setTimeout(() => next(), 500);
     });
   }
 
